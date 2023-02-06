@@ -55,6 +55,10 @@ If there are things you want to figure out with `quarto`, what are they?
 
 - One of your classmates investigated `comments`.  Perhaps they wish to share?
 
+## A Flag Change and a Difference Between Quarto and RMarkdown
+
+![embed-resources](img/Screenshot 2023-02-06 at 3.24.45 PM.png)
+
 ## Inline Code?
 
 1. Do we know how to construct inline code?
@@ -410,6 +414,12 @@ Bond.Table.Risk %>%
 
 The book on [flextable](https://ardata-fr.github.io/flextable-book/index.html)
 
+## One Chunk Option You May Need
+
+My `flextable` outputs don't render well, and they don't in general, with dark themes in `reveal.js`.  You may need this if you make them images.
+
+![results="hide"](img/Screenshot 2023-02-06 at 3.30.47 PM.png)
+
 ## One Thing I really Like
 
 :::: {.columns}
@@ -443,6 +453,45 @@ Bonds %>%
   save_as_html(path="fpivot.html")
 ```
 ## {background-iframe="fpivot.html" background-color="skyblue"}
+
+## Model tables
+
+I made a comment in the syllabus that is not quite right.  `stargazer` is indeed nice for producing publication quality tables.  But `flextable` can do this too.
+
+```{r, warning=FALSE, message=FALSE}
+library(flextable); library(tidyverse)
+Model.Cars <- lm(dist ~ speed, data=cars)
+as_flextable(Model.Cars) %>% theme_vanilla() %>% add_header_lines(values="Regression from cars data") %>%
+  save_as_html(path="regress.html")
+```
+
+## {background-iframe="regress.html" background-color="skyblue"}
+
+## Summaries
+
+```{r}
+use_df_printer()
+Bond.Funds <- read.csv(url("https://raw.githubusercontent.com/robertwwalker/DADMStuff/master/BondFunds.csv"), row.names = 1)
+obj <- summarizor(Bond.Funds, by = "Risk", overall_label = "Overall")
+obj %>% knitr::kable() %>% kableExtra::scroll_box(height="60%")
+```
+
+## The `flextable`
+
+:::: {.columns}
+::: {.column width="30%"}
+```{r, results='hide'}
+#| code-fold: show
+ft <- as_flextable(obj, spread_first_col = TRUE, separate_with = "variable") 
+ft %>% theme_vanilla() %>% save_as_image("img/SumTable.png", webshot = "webshot2")
+```
+
+:::
+::: {.column width="70%"}
+![Summary Table](img/SumTable.png)
+:::
+::::
+
 
 ## The `flextable` gallery
 
