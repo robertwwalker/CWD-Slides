@@ -1,0 +1,449 @@
+---
+title: "Week 4"
+author: "Robert W. Walker"
+format: 
+   revealjs:
+     multiplex: true
+     preview-links: true
+     theme: [custom.scss]
+     scrollable: true
+     logo: AGSMlogo.jpeg
+     footer: "Communicating With Data: Week 4 (6 Feb 2023)"
+     chalkboard: true
+     html-math-method: katex
+     incremental: true
+     slide-number: c/t
+     transition: convex
+     code-fold: true
+     code-tools: true
+---
+
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning=FALSE, message=FALSE, echo=TRUE, tidy=TRUE, comment=NA, prompt=FALSE, fig.height=6, fig.width=6.5, fig.retina = 3, dev = 'svg', eval=TRUE)
+library(tidyverse)
+theme_set(hrbrthemes::theme_ipsum_rc())
+options(
+  digits = 3,
+  width = 75,
+  ggplot2.continuous.colour = "viridis",
+  ggplot2.continuous.fill = "viridis",
+  ggplot2.discrete.colour = c("#D55E00", "#0072B2", "#009E73", "#CC79A7", "#E69F00", "#56B4E9", "#F0E442"),
+  ggplot2.discrete.fill = c("#D55E00", "#0072B2", "#009E73", "#CC79A7", "#E69F00", "#56B4E9", "#F0E442")
+)
+```
+
+# Overview
+
+1. AMA
+2. Quarto Things
+3. On Tables
+
+## The Assignment for this week
+
+Finish the portfolio cleaning up and polishing for last time and add one more post.  A table.  Actually two.
+
+1. A `gt` or `flextable`
+2. A `datatable`
+
+More on those tools in the second half of class.
+
+## AMA
+
+If there are things you want to figure out with `quarto`, what are they?
+
+One of your classmates investigated `comments`.  Perhaps they wish to share?
+
+## Inline Code?
+
+1. Do we know how to construct inline code?
+
+```{r setup3, include=FALSE}
+library(fontawesome)
+```
+
+
+You can write **smart text** using inline `r fa(name = 'r-project')` code.  In this, I used the `r fa(name = 'r-project')` package `fontawesome` to insert the icons.
+
+![fa-icons and inline](img/Screenshot 2023-02-06 at 2.41.30 PM.png)
+
+## The Structure of a Quarto Website
+
+This comes from the example on my [github page](https://robertwwalker.github.io)
+
+1. The *project*
+
+![Project YAML](img/Screenshot 2023-02-06 at 1.55.53 AM.png)
+These are covered under [Project](https://quarto.org/docs/reference/projects/websites.html#project)
+
+## The Structure of a Quarto Website
+
+This comes from the example on my [github page](https://robertwwalker.github.io)
+
+2. The *website*
+
+![website](img/Screenshot 2023-02-06 at 1.57.18 AM.png)
+
+These are covered in [website](https://quarto.org/docs/reference/projects/websites.html#meta-project-type-upper)
+
+## The Structure of a Quarto Website
+
+This comes from the example on my [github page](https://robertwwalker.github.io)
+
+2. The *website*
+    + The *navbar*
+
+![navbar](img/Screenshot 2023-02-06 at 2.05.22 AM.png)
+
+
+
+The details can be found in [that section of the documents.](https://quarto.org/docs/reference/projects/websites.html#navbar)
+
+## The Structure of a Quarto Website
+
+This comes from the example on my [github page](https://robertwwalker.github.io)
+
+2. The *website*
+    + The *navbar*
+       + The *navbar-items*
+
+![navbar-items](img/Screenshot 2023-02-06 at 2.07.13 AM.png)
+
+
+
+The details can be found in [that section of the documents.](https://quarto.org/docs/reference/projects/websites.html#nav-items)
+
+## Sidebars
+
+- [The sidebar](https://quarto.org/docs/reference/projects/websites.html#nav-items)
+- [The sidebar tools](https://quarto.org/docs/reference/projects/websites.html#nav-items)
+
+## The Footer
+
+I borrowed an example here.
+
+![The example](img/Screenshot 2023-02-06 at 2.10.15 AM.png)
+
+This can also be done in the YAML.  [The docs are here.](https://quarto.org/docs/reference/projects/websites.html#footer)
+
+## Other Website Features
+
+1. [Search](https://quarto.org/docs/reference/projects/websites.html#search)
+
+2. [Social](https://quarto.org/docs/reference/projects/websites.html#social)
+
+3. [Comments](https://quarto.org/docs/reference/projects/websites.html#comments)
+
+
+## Listings
+
+The [details on Listing](https://quarto.org/docs/reference/projects/websites.html#listings)
+
+## A Feed
+
+[Enabling an RSS feed](https://quarto.org/docs/reference/projects/websites.html#feed)
+
+## The *About* page
+
+[All about About](https://quarto.org/docs/reference/projects/websites.html#about)
+
+## The **format**
+
+Options to carryover for all documents.  It is worth noting you can add to these or override them in individual posts.
+
+![My html format](img/Screenshot 2023-02-06 at 2.18.02 AM.png)
+
+This follows from the [html formatting](https://quarto.org/docs/reference/formats/html.html)
+
+## Quarto things
+
+- The Amazing Quarto thread
+
+## Some General Comments on your Portfolios
+
+Code folding:
+
+![Fold](img/Screenshot 2023-01-30 at 2.56.52 PM.png)
+
+## Default Theming
+
+**NEVER USE DEFAULT THEMES**
+
+1. They're ugly.
+2. It makes people wonder if you understand theming.
+
+[A blog post](https://robertwwalker.github.io/DADM-FAQ/posts/default-ggplot-theme-set/)
+
+```
+theme_set(theme_minimal())
+```
+
+# On Tables
+
+1. `datatable` from `DT`
+2. For mocking up model results, `stargazer`
+3. `flextable`
+4. `gt`
+
+
+## `datatable` is amazing
+
+`datatable` from the `DT` library is a port of a Javascript library.  It enables some very neat features.
+
+## A `datatable`
+
+## Loading the Data
+
+```{r, eval=FALSE}
+library(tidyverse)
+library(DT)
+Bonds <- read.csv(url("https://raw.githubusercontent.com/robertwwalker/DADMStuff/master/BondFunds.csv"))
+Bonds %>% 
+  mutate(Risk = as.factor(Risk),
+         Fees = as.factor(Fees),
+         Type = as.factor(Type)
+         ) %>% 
+  datatable(filter="top", 
+            options = list(
+              pageLength = 10, 
+              autoWidth = TRUE
+              )
+            )
+```
+
+## Loading the Data {background-color="#CC79A7" .smaller}
+
+```{r, echo=FALSE}
+library(tidyverse)
+library(DT)
+Bonds <- read.csv(url("https://raw.githubusercontent.com/robertwwalker/DADMStuff/master/BondFunds.csv"))
+Bonds %>% 
+  mutate(Risk = as.factor(Risk),
+         Fees = as.factor(Fees),
+         Type = as.factor(Type)
+         ) %>% 
+  datatable(caption = 'Table 1: Bonds Data', 
+            filter="top",
+            options = list(
+              pageLength = 10, 
+              autoWidth = TRUE
+              )
+            )
+```
+
+## Details
+
+![filter details](img/Screenshot 2023-02-06 at 2.54.33 AM.png)
+
+## Editing? {background-color="#CC79A7" .smaller}
+
+```{r}
+datatable(head(Bonds),
+            caption = htmltools::tags$caption(
+              style = 'caption-side: bottom; text-align: center;', htmltools::strong('Table 2: Editable Bonds Data')), 
+          options = list(pageLength = 5),
+          editable = 'cell')
+```
+
+## Extras
+
+Other elements can be incorporated into `datatable` via *extensions*.  [You can find the set of extensions here.](https://rstudio.github.io/DT/extensions.html).  Let me combine the last one with the previous `datatable` of the full data to show one possibility.
+
+## Editing and Saving? {background-color="#CC79A7" .smaller}
+
+```{r}
+datatable(Bonds,
+          filter="top",
+          caption = htmltools::tags$caption(
+            style = 'caption-side: bottom; text-align: center;', 
+            htmltools::strong('Table 2: Editable Bonds Data')
+            ),           
+          editable = 'cell', 
+          extensions = c('Scroller','Buttons'), options = list(
+            deferRender = TRUE,
+            scrollY = 400,
+            scroller = TRUE,
+            dom = 'Bfrtip',
+            buttons = c('copy', 'csv', 'excel', 'pdf', 'print')
+            )
+          )
+```
+
+## The resultant csv
+
+Editing the first three rows of the `datatable` and clicking `.csv` yields:
+
+![Combining this with reactives has promise](img/Screenshot 2023-02-06 at 10.47.25 AM.png)
+
+# `gt`
+
+## An Example {background-color="#CC79A7" .smaller}
+
+**Borrowed from Ted Laderas.**
+
+```{r}
+items <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-05-05/items.csv')
+datatable(head(items))
+```
+
+## A clever function
+
+```{r}
+library(ggimage); library(gt)
+most_expensive <- function(category_name=NULL, price_category=buy_value){
+  
+  if(!is.null(category_name)){
+    items <- items %>%
+      filter(category == category_name)
+  }
+  items %>% 
+  top_n(10, {{price_category}}) %>%
+  arrange(desc({{price_category}})) %>%
+  select(name, image=image_url, sell_value, buy_value, category) %>%
+  gt() %>%
+   text_transform(
+    locations = cells_body(vars(image)),
+    fn = function(x) {
+      web_image(
+        url = x,
+        height = 50
+      )
+    }
+  )
+  
+}
+```
+
+## Making a Table {.smaller} with a Spanner
+
+```{r}
+most_expensive() %>%  tab_header(title = "Most Expensive Items in Animal Crossing By Buy Price") %>%  cols_label(
+    name = "Item",
+    sell_value = "Sale Price",
+    buy_value = "Buy Price",
+    category = "Item Type",
+    image = "Picture"
+  ) %>%   tab_spanner(
+    label = "Prices",
+    columns = c(buy_value, sell_value)
+  )
+```
+
+## Delimited Spanners are Neat
+
+With renamed or well designed data naming conventions, this is a very neat trick.  
+
+[The help on delimited spanners](https://gt.rstudio.com/reference/tab_spanner_delim.html)
+
+```{r, eval=FALSE}
+#| code-fold: false
+Bonds %>% mutate(`Fund Number` = Fund.Number,
+                 `Expense Ratio` = Expense.Ratio,
+                 `Return.3-Year` = X3.Year.Return,
+                 `Return.5-Year` = X5.Year.Return) %>% 
+  select(-c(Fund.Number, Expense.Ratio, X3.Year.Return, X5.Year.Return)) %>%
+  relocate(c(Return.2009, `Return.3-Year`, `Return.5-Year`), .after = last_col()) %>%
+           group_by(Risk) %>%
+           gt() %>%
+           tab_spanner_delim(delim = ".")
+```
+
+## Bonds: Grouped and Delimit Tabbed
+
+```{r, echo=FALSE}
+#| show-code: false
+Bonds %>% mutate(`Fund Number` = Fund.Number,
+                 `Expense Ratio` = Expense.Ratio,
+                 `Return.3-Year` = X3.Year.Return,
+                 `Return.5-Year` = X5.Year.Return) %>% 
+  select(-c(Fund.Number, Expense.Ratio, X3.Year.Return, X5.Year.Return)) %>%
+  relocate(c(Return.2009, `Return.3-Year`, `Return.5-Year`), .after = last_col()) %>%
+  select(`Fund Number`, everything()) %>%
+           group_by(Risk) %>%
+           gt() %>%
+           tab_spanner_delim(delim = ".")
+```
+
+
+## `gtExtras` can plot and color style
+
+:::: {.columns}
+::: {.column width="25%"}
+```{r, eval=FALSE}
+Bond.Table.Risk <- Bonds %>% 
+  group_by(Risk) %>% 
+  summarise(`Avg. Returns` = mean(Return.2009),
+            `SD Returns` = sd(Return.2009),
+            `Median Returns` = median(Return.2009),
+            `Density Plots` = list(Return.2009),
+            .groups = "drop") 
+Bond.Table.Risk %>%  
+  gt() %>%
+  gtExtras::gt_plt_dist(`Density Plots`, type = "density", line_color = "blue", fill_color = "lightblue") %>%
+  fmt_number(columns = 2:4, decimals = 2)
+```
+
+:::
+::: {.column width="75%"}
+```{r, eval=TRUE, echo=FALSE}
+library(gtExtras)
+Bond.Table.Risk <- Bonds %>% 
+  group_by(Risk) %>% 
+  summarise(`Avg. Returns` = mean(Return.2009),
+            `SD Returns` = sd(Return.2009),
+            `Median Returns` = median(Return.2009),
+            `Density Plots` = list(Return.2009),
+            .groups = "drop") 
+Bond.Table.Risk %>%  
+  gt() %>%
+  gtExtras::gt_plt_dist(`Density Plots`, type = "density", line_color = "blue", fill_color = "lightblue") %>%
+  fmt_number(columns = 2:4, decimals = 1) %>%
+   gt_hulk_col_numeric(`Median Returns`, trim = TRUE) %>%
+  gt_theme_538()
+```
+
+:::
+::::
+
+# `flextable`
+
+The book on [flextable](https://ardata-fr.github.io/flextable-book/index.html)
+
+## One Thing I really Like
+
+:::: {.columns}
+::: {.column width="30%"}
+[flexpivot](https://github.com/dreamRs/flexpivot)
+```{r}
+library(flextable)
+library(flexpivot)
+Bonds %>%
+  select(Fees, Risk) %>%
+  pivot_table("Fees", "Risk") %>%
+  pivot_format()
+```
+
+:::
+::: {.column width="70%"}
+![flexpivot](img/flexpivot.png)       
+:::
+::::
+
+## Another
+
+```{r, "ft.shadow" = FALSE, webshot="webshot2"}
+library(flexpivot); library(flextable)
+Bonds %>%
+  select(Fees, Risk, Type) %>%
+  pivot_table(rows=c("Type","Risk"), cols="Fees") %>%
+  pivot_format() %>% 
+  theme_vanilla() %>%  
+  add_header_lines(values="Risk, Fees, and Types") %>%
+  save_as_html(path="fpivot.html")
+```
+## {background-iframe="fpivot.html" background-color="skyblue"}
+
+## The `flextable` gallery
+
+[The Flextable gallery has an amazing array of examples.](https://ardata.fr/en/flextable-gallery/)
