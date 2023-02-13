@@ -1,0 +1,364 @@
+---
+title: "Week 5: Interactive Graphics"
+author: "Robert W. Walker"
+format: 
+   revealjs:
+     multiplex: true
+     preview-links: true
+     theme: [custom.scss]
+     scrollable: true
+     logo: AGSMlogo.jpeg
+     footer: "Communicating With Data: Week 5 (13 Feb 2023)"
+     chalkboard: true
+     html-math-method: katex
+     incremental: true
+     slide-number: c/t
+     transition: convex
+     code-fold: true
+     code-tools: true
+---
+
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning=FALSE, message=FALSE, echo=TRUE, tidy=TRUE, comment=NA, prompt=FALSE, fig.height=6, fig.width=6.5, fig.retina = 3, dev = 'svg', eval=TRUE)
+library(tidyverse)
+library(DT)
+theme_set(hrbrthemes::theme_ipsum_rc())
+options(
+  digits = 3,
+  width = 75,
+  ggplot2.continuous.colour = "viridis",
+  ggplot2.continuous.fill = "viridis",
+  ggplot2.discrete.colour = c("#D55E00", "#0072B2", "#009E73", "#CC79A7", "#E69F00", "#56B4E9", "#F0E442"),
+  ggplot2.discrete.fill = c("#D55E00", "#0072B2", "#009E73", "#CC79A7", "#E69F00", "#56B4E9", "#F0E442")
+)
+```
+
+# Overview
+
+1. AMA
+2. Some Addenda on Tables
+3. Interactive Graphics in R
+   - Network data and interaction with `networkD3`.
+   - Plotly and ggplotly
+   - Crosstalk related tools
+   - ggiraph
+
+## The Assignment for this week
+
+**Produce two interactive graphics for the portfolio.**
+
+
+## AMA
+
+If there are things you want to figure out with `quarto`, what are they?
+
+- One of your classmates investigated `comments`.  Comments have a nasty interaction with `embed-resources` in quarto because the pages become sort of dynamic.
+
+## A Flag Change and a Difference Between Quarto and RMarkdown
+
+![embed-resources](img/Screenshot 2023-02-06 at 3.24.45 PM.png)
+
+Worth noting the `self-contained` it currently supports is **deprecated**.
+
+# On Tables
+
+
+## A question that a classmate posted {.smaller}
+
+```{r, include=FALSE}
+# Init Step to make sure that the dependencies are loaded
+htmltools::tagList(datatable(mtcars))
+```
+
+
+::: {.panel-tabset}
+```{r}
+#| results: asis
+# The above makes sure that the markdown results we produce are utilized as pure markdown.
+for(i in c(4,6,8)) {
+  cat(sprintf("\n### cylinders: %d\n\n", i))
+  print(htmltools::tagList(datatable({mtcars %>% filter(cyl==i)})))
+}
+```
+:::
+
+
+## `datatable` is amazing
+
+[My post for this week.](https://robertwwalker.github.io/posts/HumanRightsTable/)
+
+## {.smaller}
+
+:::: {.columns}
+
+
+::: {.column width="50%"}
+```{r, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(magrittr)
+library(DT)
+library(gt)
+library(gtExtras)
+# install with remotes::install_github("jimjam-slam/ggflags")
+library(countrycode)
+library(ggflags) 
+load(url("https://github.com/robertwwalker/robertwwalker.github.io/raw/main/posts/HumanRightsTable/data/HumanRightsProtectionScores_v4.01.RData"))
+HR.Data <- x
+rm(x)
+HR.Data <- HR.Data %>% left_join(., codelist, by= c("COW" = "cown"))
+library(countrycode)
+Flags <- read.csv(url("https://github.com/robertwwalker/robertwwalker.github.io/raw/main/posts/HumanRightsTable/data/flags_iso.csv"))
+HR.Summary <- HR.Data %>% 
+  group_by(country.name.en) %>% 
+  mutate(Obs = n()) %>% 
+  filter(Obs==74) %>%
+  arrange(YEAR) %>%
+  summarise(Obs = mean(Obs), 
+            Mean = mean(theta_mean, na.rm=TRUE), 
+            SD = sd(theta_mean), 
+            hr_data = list(theta_mean),
+            .groups = "drop")
+CCs <- codelist %>% select(country.name.en, iso3c)
+HR.Summary <- HR.Summary %>% 
+  left_join(., CCs) %>%
+  left_join(., Flags, 
+            by=c("iso3c" = "Alpha.3.code")) %>%
+  select(-iso3c, -Country, -Alpha.2.code) %>%
+  relocate(., URL, .after=country.name.en)
+My.Table.1 <- HR.Summary %>% filter(substr(country.name.en, 1, 1) %in% LETTERS[1:9]) %>%
+  gt() %>%
+# format the numeric output to 3 digit rounding  
+  fmt_number(columns = c(Mean, SD),
+             decimals = 3) %>%
+# create nice labels for a few ugly variable names
+  cols_label(country.name.en = "Country",
+             SD = "Std. Dev.",
+             hr_data = "Time Series Plot",
+             URL = "Flag") %>%
+# Plot the sparklines from the list column
+  gt_plt_sparkline(hr_data, 
+                   type="ref_median", 
+                   same_limit = TRUE
+                   ) %>%
+# Plot the flags from the included URL's in the data
+  gt_img_rows(URL, img_source = "web", height = 30) %>%
+# use the guardian's table theme
+  gt_theme_guardian() %>% 
+# give hulk coloring to the Mean Human Rights Score
+  gt_hulk_col_numeric(Mean) %>%
+# create a header and subheader
+  tab_header(title="Human Rights Data Summary", subtitle = "Data from Fariss (2020): 1st Half") %>%
+# create the spanner heading
+  tab_spanner(label = "Human Rights Measures",
+    columns = c(
+      Mean, SD, hr_data)
+    )
+My.Table.1
+```
+:::
+
+::: {.column width="50%"}
+```{r}
+My.Table.2 <- HR.Summary %>% filter(substr(country.name.en, 1, 1) %in% LETTERS[10:26]) %>%
+  gt() %>%
+# format the numeric output to 3 digit rounding  
+  fmt_number(columns = c(Mean, SD),
+             decimals = 3) %>%
+# create nice labels for a few ugly variable names
+  cols_label(country.name.en = "Country",
+             SD = "Std. Dev.",
+             hr_data = "Time Series Plot",
+             URL = "Flag") %>%
+# Plot the sparklines from the list column
+  gt_plt_sparkline(hr_data, 
+                   type="ref_median", 
+                   same_limit = TRUE
+                   ) %>%
+# Plot the flags from the included URL's in the data
+  gt_img_rows(URL, img_source = "web", height = 30) %>%
+# use the guardian's table theme
+  gt_theme_guardian() %>% 
+# give hulk coloring to the Mean Human Rights Score
+  gt_hulk_col_numeric(Mean) %>%
+# create a header and subheader
+  tab_header(title="Human Rights Data Summary", subtitle = "Data from Fariss (2020): 2nd Half") %>%
+# create the spanner heading
+  tab_spanner(label = "Human Rights Measures",
+    columns = c(
+      Mean, SD, hr_data)
+    )
+My.Table.2
+```
+
+:::
+
+::::
+
+## Other Table Questions?
+
+# Interactive Graphics
+
+1. `networkD3`
+2. `plotly` and `ggplotly`
+3. `crosstalk` tools
+4. `ggiraph`
+
+## `networkD3`
+
+
+## The Data
+
+```{r}
+library(jsonlite)
+URL <- paste0("https://cdn.rawgit.com/christophergandrud/networkD3/","master/JSONdata/energy.json")
+Energy <- fromJSON(URL)
+Links <- Energy$links 
+pivot_wider(Links, id_cols=source, names_from = target, values_from = value) %>% knitr::kable()
+```
+
+
+## The Plot
+
+```{r, eval=FALSE, echo=TRUE}
+library(networkD3)
+# Plot
+sankeyNetwork(Links = Energy$links, 
+              Nodes = Energy$nodes, 
+              Source = "source",
+              Target = "target", 
+              Value = "value", 
+              NodeID = "name",
+              units = "TWh", 
+              fontSize = 12, 
+              nodeWidth = 30)
+```
+
+![Static picture](img/Screen Shot 2023-02-13 at 1.29.54 PM.png)
+
+[The Link](https://rww.quarto.pub/communicating-with-data/posts/week-5/index.html)
+
+## `plotly` and `ggplotly`
+
+First, let me use `ggplotly` on a `ggplot`.  This will sort of function as a completion of the assignment from last week.  That said, I think it would be better if I spliced the data randomly to keep them off the lower triangle.  It is doable; I didn't think of it until I had done it.
+
+## The Data
+
+![Description](img/Screen Shot 2023-02-13 at 1.52.38 PM.png)
+
+## {background-color="white"}
+
+```{r}
+library(DT)
+age_gaps <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2023/2023-02-14/age_gaps.csv')
+datatable(age_gaps)
+```
+
+## The `ggplot`
+
+```{r}
+AgeGapsGG <- ggplot(age_gaps) + aes(x=actor_1_age, y=actor_2_age, size=age_difference, color=age_difference,  text=paste0(release_year,": ",movie_name,"\n Director: ",director," \n", actor_1_name,", Age:", actor_1_age, "\n", actor_2_name, ", Age: ", actor_2_age)) + geom_point(alpha=0.1) + guides(size="none") + labs(title="Actor Age Differentials", color="Age Difference", x="Age of Actor 1", y="Age of Actor 2", caption="Data from #tidyTuesday")
+AgeGapsGG
+```
+
+## `ggplotly`
+
+```{r}
+library(plotly)
+ggplotly(AgeGapsGG, tooltip = c("text", "color"))
+```
+
+## The `plotly` package
+
+[`plotly` as a package has far more it can do.](https://plotly.com/r/)
+
+```{r}
+library(plotly); library(magrittr)
+library(tidyquant)
+INTC <- tq_get("INTC")
+INTC <- tail(INTC, 90)
+INTC$ID <- seq.int(nrow(INTC))
+INTC %<>% mutate(close = round(close, digits=2))
+
+accumulate_by <- function(dat, var) {
+  var <- lazyeval::f_eval(var, dat)
+  lvls <- plotly:::getLevels(var)
+  dats <- lapply(seq_along(lvls), function(x) {
+    cbind(dat[var %in% lvls[seq(1, x)], ], frame = lvls[[x]])
+  })
+  dplyr::bind_rows(dats)
+}
+
+INTC <- INTC %>% accumulate_by(~ID)
+fig <- INTC %>% plot_ly(
+  x = ~ID, 
+  y = ~close, 
+  frame = ~frame,
+  type = 'scatter', 
+  mode = 'lines', 
+  fill = 'tozeroy', 
+  fillcolor='rgba(73, 26, 201, 0.5)',
+  line = list(color = 'rgb(73, 26, 201)'),
+  text = ~paste("Date: ", date, "<br>Close: $", close), 
+  hoverinfo = 'text'
+)
+fig <- fig %>% layout(
+  title ="Intel Stock Closing Price: Last 90 Days",
+  yaxis = list(
+    title = "Close", 
+    range = c(0,50), 
+    zeroline = F,
+    tickprefix = "$"
+  ),
+  xaxis = list(
+    title = "Day", 
+    range = c(0,90), 
+    zeroline = F, 
+    showgrid = F
+  ),
+  margin = list(t=120)
+) 
+fig <- fig %>% animation_opts(
+  frame = 100, 
+  transition = 0, 
+  redraw = FALSE
+)
+fig <- fig %>% animation_slider(
+  currentvalue = list(
+    prefix = "Day "
+  )
+)
+fig
+```
+
+## The Crosstalk Idea
+
+![Image from book](img/Screen Shot 2023-02-13 at 3.58.09 PM.png)
+
+## Some Crosstalk
+
+![datatables and crosstalk](https://www.gerkelab.com/blog/2021/09/crosstalk-with-dt/)
+
+![From the R javascript book](https://book.javascript-for-r.com/linking-widgets.html)
+
+## A Very Simple Example
+
+The trick is `shared`.
+
+```{r}
+library(DT)
+library(plotly)
+library(crosstalk)
+
+shared <- SharedData$new(cars)
+
+bscols(
+  plot_ly(shared, x = ~speed, y=~dist),
+  datatable(shared, width = "100%")
+)
+```
+
+
+## Pizza on the blog....
+
