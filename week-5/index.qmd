@@ -65,7 +65,7 @@ Worth noting the `self-contained` it currently supports is **deprecated**.
 # On Tables
 
 
-## A question that a classmate posted {.smaller}
+## A question that a classmate posted {.smaller  background-color="pink"}
 
 ```{r, include=FALSE}
 # Init Step to make sure that the dependencies are loaded
