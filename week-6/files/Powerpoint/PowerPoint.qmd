@@ -1,0 +1,43 @@
+---
+title: "A Berkeley Graphic"
+format: 
+   pptx:
+     reference-doc: Berkeley.potx
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(tidyverse)
+library(fontawesome)
+load(url("https://github.com/robertwwalker/DADMStuff/raw/master/Week3Data.RData"))
+```
+
+## Why?  Oh why?
+
+- I am not a fan but...
+
+- Industry loves powerpoint.
+
+## Picture
+
+```{r, echo=FALSE}
+DisabilityExp.NoExcel %>%
+ filter(Ethnicity %in% c("White not Hispanic", "Hispanic")) %>%
+ ggplot() +
+  aes(x = Ethnicity, y = Expenditures, fill = Ethnicity) +
+  geom_boxplot() +
+  scale_fill_manual(
+    values = c(`American Indian` = "#F8766D",
+    Asian = "#C99500",
+    Black = "#69AE0F",
+    Hispanic = "#00BC64",
+    `Multi Race` = "#00BCC5",
+    `Native Hawaiian` = "#45A4F6",
+    Other = "#C978FB",
+    `White not Hispanic` = "#B81078")
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none") +
+  facet_wrap(vars(Age.Cohort), scales = "free_y")
+```
+
