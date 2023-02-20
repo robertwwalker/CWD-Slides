@@ -1,0 +1,330 @@
+---
+title: "Week 6: Presentations"
+author: "Robert W. Walker"
+format: 
+   revealjs:
+     multiplex: true
+     preview-links: true
+     theme: [custom.scss]
+     scrollable: true
+     logo: AGSMlogo.jpeg
+     footer: "Communicating With Data: Week 6 (20 Feb 2023)"
+     chalkboard: true
+     html-math-method: katex
+     incremental: true
+     slide-number: c/t
+     transition: convex
+     code-fold: true
+     code-tools: true
+---
+
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+```{r setup, include=FALSE}
+library(fontawesome)
+knitr::opts_chunk$set(warning=FALSE, message=FALSE, echo=TRUE, tidy=TRUE, comment=NA, prompt=FALSE, fig.height=6, fig.width=6.5, fig.retina = 3, dev = 'svg', eval=TRUE)
+library(tidyverse)
+library(DT)
+theme_set(hrbrthemes::theme_ipsum_rc())
+options(
+  digits = 3,
+  width = 75,
+  ggplot2.continuous.colour = "viridis",
+  ggplot2.continuous.fill = "viridis",
+  ggplot2.discrete.colour = c("#D55E00", "#0072B2", "#009E73", "#CC79A7", "#E69F00", "#56B4E9", "#F0E442"),
+  ggplot2.discrete.fill = c("#D55E00", "#0072B2", "#009E73", "#CC79A7", "#E69F00", "#56B4E9", "#F0E442")
+)
+```
+
+# Overview
+
+1. AMA
+2. Interactive Graphics in R
+   - Network data and interaction with `networkD3`.
+   - Plotly and ggplotly
+   - Crosstalk related tools
+   - ggiraph
+3. Presentations with Quarto
+   - `reveal.js`
+   - Powerpoint [.pptx]
+   - Beamer [$\LaTeX$]
+
+
+## The Assignments 
+
+- Due today: **Produce two interactive graphics for the portfolio.**
+- Due next time: **Produce a marketing presentation of yourself.**
+
+## Syllabus Guidance
+
+![This Week](img/Screenshot 2023-02-20 at 2.31.18 PM.png)
+
+![Next Week](img/Screenshot 2023-02-20 at 2.31.36 PM.png)
+
+
+## AMA
+
+If there are things you want to figure out with `quarto`, what are they?
+
+- I have one example on functions from the blog.
+
+## The `plotly` package
+
+[`plotly` as a package has far more it can do.](https://plotly.com/r/)
+
+```{r}
+library(plotly); library(magrittr)
+library(tidyquant)
+INTC <- tq_get("INTC")
+INTC <- tail(INTC, 90)
+INTC$ID <- seq.int(nrow(INTC))
+INTC %<>% mutate(close = round(close, digits=2))
+
+accumulate_by <- function(dat, var) {
+  var <- lazyeval::f_eval(var, dat)
+  lvls <- plotly:::getLevels(var)
+  dats <- lapply(seq_along(lvls), function(x) {
+    cbind(dat[var %in% lvls[seq(1, x)], ], frame = lvls[[x]])
+  })
+  dplyr::bind_rows(dats)
+}
+
+INTC <- INTC %>% accumulate_by(~ID)
+fig <- INTC %>% plot_ly(
+  x = ~ID, 
+  y = ~close, 
+  frame = ~frame,
+  type = 'scatter', 
+  mode = 'lines', 
+  fill = 'tozeroy', 
+  fillcolor='rgba(73, 26, 201, 0.5)',
+  line = list(color = 'rgb(73, 26, 201)'),
+  text = ~paste("Date: ", date, "<br>Close: $", close), 
+  hoverinfo = 'text'
+)
+fig <- fig %>% layout(
+  title ="Intel Stock Closing Price: Last 90 Days",
+  yaxis = list(
+    title = "Close", 
+    range = c(0,50), 
+    zeroline = F,
+    tickprefix = "$"
+  ),
+  xaxis = list(
+    title = "Day", 
+    range = c(0,90), 
+    zeroline = F, 
+    showgrid = F
+  ),
+  margin = list(t=120)
+) 
+fig <- fig %>% animation_opts(
+  frame = 100, 
+  transition = 0, 
+  redraw = FALSE
+)
+fig <- fig %>% animation_slider(
+  currentvalue = list(
+    prefix = "Day "
+  )
+)
+fig
+```
+
+## The Crosstalk Idea
+
+![Image from book](img/Screen Shot 2023-02-13 at 3.58.09 PM.png)
+
+# Presentations in Quarto
+
+## Today's `yml`
+
+![Screen shot of yaml](img/Screenshot 2023-02-20 at 2.35.53 PM.png)
+
+## Formatting: New slides
+
+1. New slides are
+   - `#`
+   - `##`
+   - `---`
+
+## Transitions can be set with incremental in yaml or...
+
+![Incrementals](img/Screenshot 2023-02-20 at 2.38.38 PM.png)
+
+## Pauses
+
+`. . .`
+
+## Multicolumn
+
+![Multicolumn](img/Screenshot 2023-02-20 at 2.39.29 PM.png)
+
+## Snippets
+
+:::: {.columns}
+::: {.column width="30%"}
+`!multic30` and then shift-tab
+:::
+::: {.column width="70%"}
+
+![Code snippets](img/Screenshot 2023-02-20 at 2.51.03 PM.png)
+
+:::
+::::
+
+## Formatting
+
+:::: {.columns}
+::: {.column width="50%"}
+![Size and Scroll](img/Screenshot 2023-02-20 at 2.53.12 PM.png)
+
+:::
+::: {.column width="50%"}
+![Global](img/Screenshot 2023-02-20 at 2.53.51 PM.png)
+
+:::
+::::
+
+## Themes
+
+![Themes](img/Screenshot 2023-02-20 at 2.55.07 PM.png)
+
+## Comments
+
+- Green ^[A footnote]
+- Brown
+- Purple
+
+::: aside
+Some additional commentary of more peripheral interest.
+:::
+
+## Backgrounds [Sometimes themes are bad]
+
+:::: {.columns}
+::: {.column width="50%"}
+
+![Background](img/Screenshot 2023-02-20 at 2.56.59 PM.png)
+:::
+::: {.column width="50%"}
+![Background](img/Screenshot 2023-02-20 at 2.58.58 PM.png)
+:::
+::::
+
+## {background-color="red" background-image="r-project.png" background-size="400px"}
+
+Just because
+
+## Customizing Images
+
+:::: {.columns}
+::: {.column width="30%"}
+
+```
+
+![](image1.png){.absolute top=200 left=0 width="350" height="300"}
+
+![](image2.png){.absolute top=50 right=50 width="450" height="250"}
+
+![](image3.png){.absolute bottom=0 right=50 width="300" height="300"}
+```
+
+
+:::
+::: {.column width="70%"}
+
+![](r-project.png){.absolute top=200 left=0 width="350" height="300"}
+
+![](r-project.png){.absolute top=50 right=50 width="450" height="250"}
+
+![](r-project.png){.absolute bottom=0 right=50 width="300" height="300"}
+:::
+::::
+
+## Animations
+
+![Animation](img/Screenshot 2023-02-20 at 3.05.51 PM.png)
+
+## Shown {auto-animate="true"}
+
+```r
+# Fill in the spot we created for a plot
+output$phonePlot <- renderPlot({
+  # Render a barplot
+})
+```
+
+## Shown {auto-animate=true}
+
+```r
+# Fill in the spot we created for a plot
+output$phonePlot <- renderPlot({
+  # Render a barplot
+  barplot(WorldPhones[,input$region]*1000, 
+          main=input$region,
+          ylab="Number of Telephones",
+          xlab="Year")
+})
+```
+
+## With text {auto-animate=true}
+
+Animation
+
+## With text {auto-animate=true}
+
+Implicit
+
+Animation
+
+## This part is neat
+
+[Fragments](https://quarto.org/docs/presentations/revealjs/advanced.html#fragments)
+
+## tabsets
+
+![Tabsets](img/Screenshot 2023-02-20 at 3.11.23 PM.png)
+
+## tabsets don't multiplex  {.smaller}
+
+::: {.panel-tabset}
+
+### weight and displacement
+
+```{r, warning=FALSE, message=FALSE}
+mtcars %>% ggplot() + 
+  aes(x=wt, y=disp, color=cyl) + 
+  geom_point() + 
+  theme_minimal()
+```
+
+### horsepower and displacement
+
+```{r, warning=FALSE, message=FALSE}
+mtcars %>% ggplot() + 
+  aes(x=hp, y=disp, color=cyl) + 
+  geom_point() + 
+  theme_minimal()
+```
+
+### horsepower and mileage
+
+```{r, warning=FALSE, message=FALSE}
+mtcars %>% ggplot() + 
+  aes(x=hp, y=mpg, color=cyl) + 
+  geom_point() + 
+  theme_minimal()
+```
+
+:::
+
+# Powerpoint
+
+## I am not a fan but...
+
+Industry `r fa(name = "heart", fill="red", prefer_type="solid")` powerpoint.
+
+## How To Do?
+
+![Page](img/Screenshot 2023-02-20 at 3.38.42 PM.png)
