@@ -156,11 +156,7 @@ SP400$symbol %>% map(., function(x) { Equity.Analyser(x)})
 
 Two general pathways.
 
-1. 
-
-```
-function(x) { something.happens.to(x) }
-```
+1. ```function(x) { something.happens.to(x) }```
 
 2. `~`
 
@@ -225,6 +221,65 @@ map(mtcars, ~is.character(.x))
 
 [An Extended Example](https://adv-r.hadley.nz/functionals.html#pmap)
 
+## The Cards: Part I
+
+```
+# Step 1
+library(rmarkdown)
+library(purrr)
+CardsMaker2 <- function(User.ID, First, Name) {
+  render("CardsMaster3-Sp23.Rmd", params = list(User.ID=User.ID, fname=First, name=Name), output_file = paste0("cards3/",User.ID,".html", sep=""))
+}
+# Modify this to import the spreadsheet
+Email.List <- read.csv("ClassRoster.csv")
+# Select remote attendees and change variable names to reflect the proper ones in the call below.
+Email.List.Use <- Email.List %>% filter(Role=="Student") %>% mutate(email = Email) 
+Email.List.Use %<>% 
+  rowwise() %>% 
+  mutate(Last = unlist(str_split(Name, ","))[1], First = unlist(str_split(Name, ","))[2]) %>% 
+  data.frame()
+Email.List.Use %>% select(Name, User.ID, First) %>% pmap(CardsMaker2)
+```
+
+## The Cards: Part II
+
+```
+library(gmailr)
+library(tidyverse)
+library(magrittr)
+use_secret_file("~/Client-Secret-RWALKER.json")
+# Construct an email
+send.IPmail.WU <- function(email, firstname, lastname, fstub) {
+  html_msg <-
+    gm_mime() %>%
+    gm_to(paste0(firstname," ",lastname," <",email,">")) %>%
+    gm_from("Robert W. Walker <rwalker@willamette.edu>") %>%
+    gm_subject(paste0("A Mid-Semester Function...")) %>%
+    gm_html_body(paste0("To: ", lastname,", ",firstname,", <hr /> <br> 
+  Hello ",firstname,", <br> A wee gift in an .html card.<br> <br>
+                      With my highest regards, <br> Robert W. Walker <br> <br>")) %>%
+    gm_attach_file(paste0("cards3/",fstub,".html", sep=""))
+  gm_send_message(html_msg)
+  return(list(Success=1, email=email, Message = html_msg))
+}
+# Modify this to import the spreadsheet
+Email.List <- read.csv("ClassRoster.csv")
+# Select role.
+Email.List.Use <- Email.List %>% filter(Role=="Student") %>% mutate(email = Email) 
+Email.List.Use %<>% 
+  rowwise() %>% 
+  mutate(Last = unlist(str_split(Name, ","))[1], First = unlist(str_split(Name, ","))[2]) %>% 
+  data.frame()
+# A pedestrian use of map.
+1:dim(Email.List.Use)[[1]] %>% 
+map(~ send.IPmail.WU(
+email=Email.List.Use$email[.x], 
+firstname=Email.List.Use$First[.x], 
+lastname=Email.List.Use$Last[.x], 
+fstub=Email.List.Use$User.ID[.x])
+)
+```
+
 ## The `reduce` family
 
 [Is explained here](https://adv-r.hadley.nz/functionals.html#reduce)
@@ -233,9 +288,30 @@ map(mtcars, ~is.character(.x))
 
 ![Screen shot](img/Screenshot 2023-02-27 at 1.01.35 PM.png)
 
+
+## A funny thing about the `tidyverse`
+
+**Quosures**
+
+```{r}
+mySum <- function(dat, vec) {
+  vec <- enquo(vec)
+  result <- dat %>%
+    summarise(
+  Mean = mean(!!vec, na.rm=TRUE),
+  SD = sd(!!vec, na.rm=TRUE),
+  SE = sd(!!vec, na.rm=TRUE)/sqrt(length(!!vec)),
+  P25 = quantile(!!vec, probs=0.25),
+  P75 = quantile(!!vec, probs=0.75))
+  return(result)
+}
+mtcars %>% mySum(., disp)
+```
+
+
 ## A Wee Break
 
-Week 9 is open.  What do we want to do?
+Week 8 is open.  What do we want to do?
 
 ## How To Do?
 
