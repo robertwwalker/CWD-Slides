@@ -291,7 +291,7 @@ fstub=Email.List.Use$User.ID[.x])
 
 ## A funny thing about the `tidyverse`
 
-**Quosures**
+**Quosures**. [The writeup](https://rlang.r-lib.org/reference/topic-quosure.html)
 
 ```{r}
 mySum <- function(dat, vec) {
@@ -301,12 +301,16 @@ mySum <- function(dat, vec) {
   Mean = mean(!!vec, na.rm=TRUE),
   SD = sd(!!vec, na.rm=TRUE),
   SE = sd(!!vec, na.rm=TRUE)/sqrt(length(!!vec)),
-  P25 = quantile(!!vec, probs=0.25),
-  P75 = quantile(!!vec, probs=0.75))
+  P25 = quantile({{vec}}, probs=0.25),
+  P75 = quantile({{vec}}, probs=0.75))
   return(result)
 }
 mtcars %>% mySum(., disp)
 ```
+
+## An Example Command
+
+<iframe src="https://github.com/robertwwalker/DADMStuff/blob/master/xtsumAN.R" width="680" height="600" allowfullscreen></iframe>
 
 
 ## A Wee Break

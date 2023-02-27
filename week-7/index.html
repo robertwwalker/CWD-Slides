@@ -821,7 +821,7 @@ fstub=Email.List.Use$User.ID[.x])
 <img data-src="img/Screenshot%202023-02-27%20at%201.01.35%20PM.png" class="r-stretch quarto-figure-center"><p class="caption">Screen shot</p></section>
 <section id="a-funny-thing-about-the-tidyverse" class="slide level2">
 <h2>A funny thing about the <code>tidyverse</code></h2>
-<p><strong>Quosures</strong></p>
+<p><strong>Quosures</strong>. <a href="https://rlang.r-lib.org/reference/topic-quosure.html">The writeup</a></p>
 <div class="cell">
 <details>
 <summary>Code</summary>
@@ -829,18 +829,30 @@ fstub=Email.List.Use$User.ID[.x])
 <span id="cb21-2"><a href="#cb21-2"></a>    vec <span class="ot">&lt;-</span> <span class="fu">enquo</span>(vec)</span>
 <span id="cb21-3"><a href="#cb21-3"></a>    result <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span></span>
 <span id="cb21-4"><a href="#cb21-4"></a>        <span class="fu">summarise</span>(<span class="at">Mean =</span> <span class="fu">mean</span>(<span class="sc">!!</span>vec, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">SD =</span> <span class="fu">sd</span>(<span class="sc">!!</span>vec, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb21-5"><a href="#cb21-5"></a>            <span class="at">SE =</span> <span class="fu">sd</span>(<span class="sc">!!</span>vec, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)<span class="sc">/</span><span class="fu">sqrt</span>(<span class="fu">length</span>(<span class="sc">!!</span>vec)), <span class="at">P25 =</span> <span class="fu">quantile</span>(<span class="sc">!!</span>vec,</span>
-<span id="cb21-6"><a href="#cb21-6"></a>                <span class="at">probs =</span> <span class="fl">0.25</span>), <span class="at">P75 =</span> <span class="fu">quantile</span>(<span class="sc">!!</span>vec, <span class="at">probs =</span> <span class="fl">0.75</span>))</span>
-<span id="cb21-7"><a href="#cb21-7"></a>    <span class="fu">return</span>(result)</span>
-<span id="cb21-8"><a href="#cb21-8"></a>}</span>
-<span id="cb21-9"><a href="#cb21-9"></a>mtcars <span class="sc">%&gt;%</span></span>
-<span id="cb21-10"><a href="#cb21-10"></a>    <span class="fu">mySum</span>(., disp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb21-5"><a href="#cb21-5"></a>            <span class="at">SE =</span> <span class="fu">sd</span>(<span class="sc">!!</span>vec, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)<span class="sc">/</span><span class="fu">sqrt</span>(<span class="fu">length</span>(<span class="sc">!!</span>vec)), <span class="at">P25 =</span> <span class="fu">quantile</span>({</span>
+<span id="cb21-6"><a href="#cb21-6"></a>                {</span>
+<span id="cb21-7"><a href="#cb21-7"></a>                  vec</span>
+<span id="cb21-8"><a href="#cb21-8"></a>                }</span>
+<span id="cb21-9"><a href="#cb21-9"></a>            }, <span class="at">probs =</span> <span class="fl">0.25</span>), <span class="at">P75 =</span> <span class="fu">quantile</span>({</span>
+<span id="cb21-10"><a href="#cb21-10"></a>                {</span>
+<span id="cb21-11"><a href="#cb21-11"></a>                  vec</span>
+<span id="cb21-12"><a href="#cb21-12"></a>                }</span>
+<span id="cb21-13"><a href="#cb21-13"></a>            }, <span class="at">probs =</span> <span class="fl">0.75</span>))</span>
+<span id="cb21-14"><a href="#cb21-14"></a>    <span class="fu">return</span>(result)</span>
+<span id="cb21-15"><a href="#cb21-15"></a>}</span>
+<span id="cb21-16"><a href="#cb21-16"></a>mtcars <span class="sc">%&gt;%</span></span>
+<span id="cb21-17"><a href="#cb21-17"></a>    <span class="fu">mySum</span>(., disp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>  Mean  SD   SE P25 P75
 1  231 124 21.9 121 326</code></pre>
 </div>
 </div>
+</section>
+<section id="an-example-command" class="slide level2">
+<h2>An Example Command</h2>
+<iframe src="https://github.com/robertwwalker/DADMStuff/blob/master/xtsumAN.R" width="680" height="600" allowfullscreen="">
+</iframe>
 </section>
 <section id="a-wee-break" class="slide level2">
 <h2>A Wee Break</h2>
