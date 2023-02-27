@@ -1,0 +1,242 @@
+---
+title: "Week 7: functions and Parameterized Markdown"
+author: "Robert W. Walker"
+format: 
+   revealjs:
+     multiplex: true
+     preview-links: true
+     theme: [custom.scss]
+     scrollable: true
+     logo: AGSMlogo.jpeg
+     footer: "Communicating With Data: Week 7 (27 Feb 2023)"
+     chalkboard: true
+     html-math-method: katex
+     incremental: true
+     slide-number: c/t
+     transition: convex
+     code-fold: true
+     code-tools: true
+---
+
+# Overview
+
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+```{r setup, include=FALSE}
+library(fontawesome)
+knitr::opts_chunk$set(warning=FALSE, message=FALSE, echo=TRUE, tidy=TRUE, comment=NA, prompt=FALSE, fig.height=6, fig.width=6.5, fig.retina = 3, dev = 'svg', eval=TRUE)
+library(tidyverse)
+library(DT)
+theme_set(hrbrthemes::theme_ipsum_rc())
+options(
+  digits = 3,
+  width = 75,
+  ggplot2.continuous.colour = "viridis",
+  ggplot2.continuous.fill = "viridis",
+  ggplot2.discrete.colour = c("#D55E00", "#0072B2", "#009E73", "#CC79A7", "#E69F00", "#56B4E9", "#F0E442"),
+  ggplot2.discrete.fill = c("#D55E00", "#0072B2", "#009E73", "#CC79A7", "#E69F00", "#56B4E9", "#F0E442")
+)
+```
+
+## Overview
+
+1. AMA
+2. Presentations with Quarto
+   - `reveal.js`
+   - Powerpoint [.pptx]
+   - Beamer [$\LaTeX$]
+3. `function`
+4. Parameterized markdown
+
+## The Assignments 
+
+- Due this week: **Produce a marketing presentation of yourself.**
+- Due next week: **Parameterize a markdown.**
+
+## Syllabus Guidance
+
+:::: {.columns}
+::: {.column width="50%"}
+![This Week](img/Screenshot 2023-02-20 at 2.31.18 PM.png)
+
+:::
+::: {.column width="50%"}
+
+![Next Week](img/Screenshot 2023-02-20 at 2.31.36 PM.png)
+
+:::
+::::
+
+
+
+## AMA
+
+If there are things you want to figure out with `quarto`, what are they?
+
+- I have one example on functions from the blog.
+
+## On Functions
+
+In the old days, there was `apply` and variants of `apply` including `lapply`, `sapply`, `apply`, ``vapply` and others.
+
+```{r}
+sapply(1:5, function(x) {cat(paste0(x,"\n",sep=""))})
+```
+## A More Modern Way
+
+From [Advanced R](https://adv-r.hadley.nz/functionals.html)
+
+:::: {.columns}
+::: {.column width="50%"}
+
+```{r}
+triple <- function(x) x * 3
+map(1:3, triple)
+```
+:::
+::: {.column width="50%"}
+
+![Screen shot](img/Screenshot 2023-02-27 at 7.19.09 AM.png)
+:::
+::::
+
+## The key idea is what to output
+
+- `map_chr`: map to character.
+- `map_lgl`: map to logical.
+- `map_int`: map to integer.
+- `map_dbl`: map to double.
+
+## `map`
+
+:::: {.columns}
+::: {.column width="50%"}
+
+```{r}
+# map_chr() always returns a character vector
+map_chr(mtcars, typeof)
+# map_lgl() always returns a logical vector
+map_lgl(mtcars, is.double)
+```
+
+:::
+::: {.column width="50%"}
+
+```{r}
+# map_int() always returns a integer vector
+n_unique <- function(x) length(unique(x))
+map_int(mtcars, n_unique)
+# map_dbl() always returns a double vector
+map_dbl(mtcars, mean)
+```
+
+:::
+::::
+
+## A General Structure
+
+`map` has a natural column orientation.
+
+## My use case
+
+```
+library(tidyquant)
+library(rmarkdown)
+library(purrr)
+Equity.Analyser <- function(x) {
+  render("TQ-Parameters.qmd", 
+         params = list(ticker = x), 
+         output_file = paste0("docs/files/",x,".html"))
+}
+SP400 <- tq_index("SP400")
+SP400$symbol %>% map(., function(x) { Equity.Analyser(x)})
+```
+
+## Anonymous Functions
+
+Two general pathways.
+
+1. 
+
+```
+function(x) { something.happens.to(x) }
+```
+
+2. `~`
+
+An example: **NB: old school apply takes a row (1) or column (2) input.**
+
+```{r}
+apply(mtcars, 2, function(x) { is.character(x)  } )
+map(mtcars, ~is.character(.x))
+```
+
+## The Various Techniques
+
+:::: {.columns}
+::: {.column width="50%"}
+![Screen Shot](img/Screenshot 2023-02-27 at 12.39.17 PM.png)
+:::
+::: {.column width="50%"}
+![Screen shot](img/Screenshot 2023-02-27 at 12.39.28 PM.png)
+:::
+::::
+
+## On Types
+
+![Screen shot](img/Screenshot 2023-02-27 at 12.42.45 PM.png)
+
+
+## `map2`
+
+![Screen shot](img/Screenshot 2023-02-27 at 12.46.12 PM.png)
+
+## `walk`
+
+[An example](https://rww-science.website/post/slavery-removal/)
+
+## A Great Example
+
+![Visualizing walk2](img/Screenshot 2023-02-27 at 12.50.37 PM.png)
+
+## `imap`
+
+:::: {.columns}
+::: {.column width="50%"}
+![Screen shot](img/Screenshot 2023-02-27 at 12.52.41 PM.png)
+:::
+::: {.column width="50%"}
+![Screen shot](img/Screenshot 2023-02-27 at 12.54.13 PM.png)
+:::
+::::
+
+## Multiples: `pmap`
+
+:::: {.columns}
+::: {.column width="50%"}
+![Screen shot](img/Screenshot 2023-02-27 at 12.54.59 PM.png)
+:::
+::: {.column width="50%"}
+![Screen shot](img/Screenshot 2023-02-27 at 12.56.19 PM.png)
+:::
+::::
+
+## Think This Through
+
+[An Extended Example](https://adv-r.hadley.nz/functionals.html#pmap)
+
+## The `reduce` family
+
+[Is explained here](https://adv-r.hadley.nz/functionals.html#reduce)
+
+## Predicate functionals
+
+![Screen shot](img/Screenshot 2023-02-27 at 1.01.35 PM.png)
+
+## A Wee Break
+
+Week 9 is open.  What do we want to do?
+
+## How To Do?
+
+![Page](img/Screenshot 2023-02-20 at 3.38.42 PM.png)
