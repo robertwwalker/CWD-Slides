@@ -1,0 +1,45 @@
+---
+title: "Communicating With Data: Slides"
+bibliography: "bibliography.bib"
+nocite: |
+     @*
+author: "Robert W. Walker"
+format: 
+   html:
+     self-contained: true
+     self-contained-math: true
+     code-fold: true
+     code-copy: hover
+     code-block-border-left: true
+     df-print: paged
+     embed-resources: true
+     fig-format: retina
+     footnotes-hover: true
+     html-math-method: katex
+     mainfont: Playfair Display
+     toc: true
+     toc-title: Navigation
+     theme: simplex
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(message=FALSE, warning=FALSE)
+```
+
+# The Sets of Slides
+
+```{r}
+library(tidyverse)
+library(DT)
+Result <- data.frame(x=dir()) %>% filter(startsWith(x, "week"))
+Result <- Result %>% mutate(Result = str_replace(x, "-", " ")) %>% mutate(x = paste0('<a href=',paste0("https://robertwwalker.github.io/CWD-Slides/",x,"/", sep=""),' >',Result, '</a>', sep="")) %>% mutate(Link = x) %>% select(-x)
+datatable(Result, escape = FALSE)
+```
+
+
+# References
+
+```{r}
+knitr::write_bib(names(sessionInfo()$otherPkgs), file="bibliography.bib")
+```
+
