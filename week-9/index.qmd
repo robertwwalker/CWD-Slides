@@ -1,0 +1,303 @@
+---
+title: "Week 9: parameterized Markdown and Shiny"
+author: "Robert W. Walker"
+format: 
+   revealjs:
+     multiplex: true
+     preview-links: true
+     theme: [custom.scss]
+     scrollable: true
+     logo: AGSMlogo.jpeg
+     footer: "Communicating With Data: Week 7 (13 Mar 2023)"
+     chalkboard: true
+     html-math-method: katex
+     incremental: true
+     slide-number: c/t
+     transition: convex
+     code-fold: true
+     code-tools: true
+---
+
+# Overview
+
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+```{r setup, include=FALSE}
+library(fontawesome)
+knitr::opts_chunk$set(warning=FALSE, message=FALSE, echo=TRUE, tidy=TRUE, comment=NA, prompt=FALSE, fig.height=6, fig.width=6.5, fig.retina = 3, dev = 'svg', eval=TRUE)
+library(tidyverse)
+library(DT)
+theme_set(hrbrthemes::theme_ipsum_rc())
+options(
+  digits = 3,
+  width = 75,
+  ggplot2.continuous.colour = "viridis",
+  ggplot2.continuous.fill = "viridis",
+  ggplot2.discrete.colour = c("#D55E00", "#0072B2", "#009E73", "#CC79A7", "#E69F00", "#56B4E9", "#F0E442"),
+  ggplot2.discrete.fill = c("#D55E00", "#0072B2", "#009E73", "#CC79A7", "#E69F00", "#56B4E9", "#F0E442")
+)
+```
+
+## Overview
+
+1. AMA
+2. Parameterized markdown
+3. Shiny
+
+## The Assignment [Multi-week] 
+
+**A shiny**
+
+## AMA
+
+If there are things you want to figure out with `quarto`, what are they?
+
+- I have one example on functions from the blog.
+
+## A Discord Post
+
+On programming tidily.
+
+## A funny thing about the `tidyverse`
+
+**Quosures**. [The writeup](https://rlang.r-lib.org/reference/topic-quosure.html)
+
+```{r}
+mySum <- function(dat, vec) {
+  vec <- enquo(vec)
+  result <- dat %>%
+    summarise(
+  Mean = mean(!!vec, na.rm=TRUE),
+  SD = sd(!!vec, na.rm=TRUE),
+  SE = sd(!!vec, na.rm=TRUE)/sqrt(length(!!vec)),
+  P25 = quantile({{vec}}, probs=0.25),
+  P75 = quantile({{vec}}, probs=0.75))
+  return(result)
+}
+mtcars %>% mySum(., disp)
+```
+
+# Shiny
+
+## A Mental Model
+
+Ever heard the phrase *letting the data speak*?
+
+**A shiny gives the data a particular set of voices and words.**
+
+What do I mean by this?
+
+- Almost all shiny apps limit the set of things the end-user can do.  I know of only one exception to this rule and I use it extensively -- radiant.
+
+## Something to do....
+
+**Watch this!**
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/HpqLXB_TnpI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
+## The Basics
+
+:::: {.columns}
+::: {.column width="50%"}
+![What for?](img/Screenshot 2023-03-13 at 1.24.51 PM.png)
+:::
+::: {.column width="50%"}
+
+![What in particular?](img/Screenshot 2023-03-13 at 1.25.24 PM.png)
+
+:::
+::::
+
+## An Attack Plan
+
+![Division of Book](img/Screenshot 2023-03-13 at 1.26.31 PM.png)
+
+# The First Part
+
+1. A first app
+2. Basic UI
+3. Basic Reactivity
+4. Case Study: ER Injuries
+
+## UI and Server
+
+There are multiple ways to devise a shiny app but it ultimately comes down to a **UI** -- user interface -- and a set of **server** instructions driven by the **UI**.
+
+> Shiny uses reactive programming to automatically update outputs when inputs change so we’ll finish off the chapter by learning the third important component of Shiny apps: reactive expressions
+
+## Stepping Back, What could be done?
+
+<iframe src="https://vnijs.shinyapps.io/radiant/" width=100% height=90%></iframe>
+
+## Let's Do This...
+
+[A First Hit](https://mastering-shiny.org/basic-app.html)
+
+## A Running Example
+
+```
+library(shiny)
+ui <- fluidPage(
+  "Hello, world!"
+)
+server <- function(input, output, session) {
+}
+shinyApp(ui, server)
+```
+
+## Adding to UI
+
+```
+ui <- fluidPage(
+  selectInput("dataset", label = "Dataset", choices = ls("package:datasets")),
+  verbatimTextOutput("summary"),
+  tableOutput("table")
+)
+server <- function(input, output, session) {
+}
+shinyApp(ui, server)
+```
+
+## Adding to Server
+
+```
+ui <- fluidPage(
+  selectInput("dataset", label = "Dataset", choices = ls("package:datasets")),
+  verbatimTextOutput("summary"),
+  tableOutput("table")
+)
+server <- function(input, output, session) {
+  output$summary <- renderPrint({
+# Note the duplication
+    dataset <- get(input$dataset, "package:datasets")
+    summary(dataset)
+  })
+  
+  output$table <- renderTable({
+# Note the duplication
+    dataset <- get(input$dataset, "package:datasets")
+    dataset
+  })
+}
+shinyApp(ui, server)
+```
+
+## Adding to Server 2
+
+```
+ui <- fluidPage(
+  selectInput("dataset", label = "Dataset", choices = ls("package:datasets")),
+  verbatimTextOutput("summary"),
+  tableOutput("table")
+)
+server <- function(input, output, session) {
+  # Create a reactive expression
+  dataset <- reactive({
+    get(input$dataset, "package:datasets")
+  })
+
+  output$summary <- renderPrint({
+    # Use a reactive expression by calling it like a function
+    summary(dataset())
+  })
+  
+  output$table <- renderTable({
+    dataset()
+  })
+}
+shinyApp(ui, server)
+```
+
+## Making this more rich...
+
+:::: {.columns}
+::: {.column width="50%"}
+
+![Inputs](img/Screenshot 2023-03-13 at 1.52.45 PM.png)
+
+:::
+::: {.column width="50%"}
+Some things will require specials, e.g. DT and plotly
+
+![Outputs](img/Screenshot 2023-03-13 at 1.53.31 PM.png)
+
+:::
+::::
+
+
+## That's just the beginning
+
+[There are an amazing array of extensions.](https://github.com/nanxstats/awesome-shiny-extensions)
+
+## Reactive Programming
+
+> Do this if that.
+
+:::: {.columns}
+::: {.column width="50%"}
+
+![Insight 1](img/Screenshot 2023-03-13 at 2.36.47 PM.png)
+
+:::
+::: {.column width="50%"}
+
+![Insight 2](img/Screenshot 2023-03-13 at 2.37.50 PM.png)
+
+:::
+::::
+
+## The big idea
+
+:::: {.columns}
+::: {.column width="50%"}
+
+![Reactive](img/Screenshot 2023-03-13 at 2.39.41 PM.png)
+
+:::
+::: {.column width="50%"}
+
+![A Graph](img/Screenshot 2023-03-13 at 2.40.09 PM.png)
+
+:::
+::::
+
+## The Example
+
+<iframe src="https://mastering-shiny.org/basic-reactivity.html#the-motivation" width=90% height=90%></frame>
+
+## Details
+
+:::: {.columns}
+::: {.column width="50%"}
+
+![Details](img/Screenshot 2023-03-13 at 2.43.19 PM.png)
+
+:::
+::: {.column width="50%"}
+
+![Input/Output](img/Screenshot 2023-03-13 at 2.43.33 PM.png)
+
+:::
+::::
+
+## An Important Section
+
+![Observers](img/Screenshot 2023-03-13 at 2.47.21 PM.png)
+
+## The low-down
+
+![Observers Reconstruct](img/Screenshot 2023-03-13 at 2.48.17 PM.png)
+
+## A Case Study
+
+[Is here](https://mastering-shiny.org/basic-case-study.html)
+
+## Other Use Cases
+
+The blog highlights the need for special programming tools if we decide that our use cases is a `model choice` approach.
+
+## Some Alternatives to Consider
+
+1. Parameterized markdown and CRON jobs
+   - What is a CRON job?
+2. CRON jobs and web servers?
