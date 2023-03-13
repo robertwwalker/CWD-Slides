@@ -664,11 +664,9 @@ shinyApp(ui, server)</code></pre>
 </div>
 </div>
 </div>
-</section>
-<section id="the-example" class="slide level2">
-<h2>The Example</h2>
-<iframe src="https://mastering-shiny.org/basic-reactivity.html#the-motivation" width="90%" height="90%">
-<p></frame></p>
+<pre><code>## The Example
+
+&lt;iframe src="https://mastering-shiny.org/basic-reactivity.html#the-motivation" width=90% height=90%&gt;&lt;/frame&gt;</code></pre>
 </section>
 <section id="details" class="slide level2">
 <h2>Details</h2>
@@ -676,15 +674,15 @@ shinyApp(ui, server)</code></pre>
 <div class="column" style="width:50%;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="img/Screenshot%202023-03-13%20at%202.43.19%20PM.png" /></p>
-<p><figcaption>Details</figcaption></p>
+<p><img data-src="img/Screenshot%202023-03-13%20at%202.43.19%20PM.png"></p>
+<p></p><figcaption>Details</figcaption><p></p>
 </figure>
 </div>
 </div><div class="column" style="width:50%;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="img/Screenshot%202023-03-13%20at%202.43.33%20PM.png" /></p>
-<p><figcaption>Input/Output</figcaption></p>
+<p><img data-src="img/Screenshot%202023-03-13%20at%202.43.33%20PM.png"></p>
+<p></p><figcaption>Input/Output</figcaption><p></p>
 </figure>
 </div>
 </div>
@@ -692,22 +690,12 @@ shinyApp(ui, server)</code></pre>
 </section>
 <section id="an-important-section" class="slide level2">
 <h2>An Important Section</h2>
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="img/Screenshot%202023-03-13%20at%202.47.21%20PM.png" /></p>
-<p><figcaption>Observers</figcaption></p>
-</figure>
-</div>
-</section>
+
+<img data-src="img/Screenshot%202023-03-13%20at%202.47.21%20PM.png" class="r-stretch quarto-figure-center"><p class="caption">Observers</p></section>
 <section id="the-low-down" class="slide level2">
 <h2>The low-down</h2>
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="img/Screenshot%202023-03-13%20at%202.48.17%20PM.png" /></p>
-<p><figcaption>Observers Reconstruct</figcaption></p>
-</figure>
-</div>
-</section>
+
+<img data-src="img/Screenshot%202023-03-13%20at%202.48.17%20PM.png" class="r-stretch quarto-figure-center"><p class="caption">Observers Reconstruct</p></section>
 <section id="a-case-study" class="slide level2">
 <h2>A Case Study</h2>
 <p><a href="https://mastering-shiny.org/basic-case-study.html">Is here</a></p>
@@ -725,11 +713,14 @@ shinyApp(ui, server)</code></pre>
 </ul></li>
 <li class="fragment">CRON jobs and web servers?</li>
 </ol>
-<p><img src="AGSMlogo.jpeg" class="slide-logo" /></p>
-<div class="footer footer-default">
+</section></section>
+<section id="the-path-forward" class="title-slide slide level1 center" data-background-image="img/PathF.png" data-background-size="450px">
+<h1>The Path Forward</h1>
+
+<img src="AGSMlogo.jpeg" class="slide-logo r-stretch"><div class="footer footer-default">
 <p>Communicating With Data: Week 7 (13 Mar 2023)</p>
 </div>
-</section></section>
+</section>
     </div>
   </div>
 
@@ -755,7 +746,19 @@ shinyApp(ui, server)</code></pre>
 
       // Full list of configuration options available at:
       // https://revealjs.com/config/
-      Reveal.initialize({ 
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'smaller': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'chalkboard': {"buttons":true},
+'multiplex': {"secret":null,"id":"ce61ad439b25ec07","url":"https://reveal-multiplex.glitch.me/"},
+'smaller': false,
+ 
         // Display controls in the bottom right corner
         controls: false,
 
@@ -774,7 +777,7 @@ shinyApp(ui, server)</code></pre>
         progress: true,
 
         // Display the page number of the current slide
-        slideNumber: c/t,
+        slideNumber: 'c/t',
 
         // 'all', 'print', or 'speaker'
         showSlideNumber: 'all',
@@ -907,7 +910,8 @@ shinyApp(ui, server)</code></pre>
         margin: 0.1,
 
         // reveal.js plugins
-        plugins: [
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealChalkboard, QuartoSupport,
+
           
           RevealSearch,
           RevealZoom
@@ -952,7 +956,7 @@ shinyApp(ui, server)</code></pre>
       })();
     </script>
 
-    <script id = "quarto-html-after-body" type="application/javascript">
+    <script id="quarto-html-after-body" type="application/javascript">
     window.document.addEventListener("DOMContentLoaded", function (event) {
       const toggleBodyColorMode = (bsSheetEl) => {
         const mode = bsSheetEl.getAttribute("data-mode");
@@ -1084,6 +1088,6 @@ shinyApp(ui, server)</code></pre>
       }
     });
     </script>
-    </body>
-</html>
-</iframe></section></section></div></div></body></html>
+    
+
+</body></html>

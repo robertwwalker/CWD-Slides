@@ -246,6 +246,8 @@ Some things will require specials, e.g. DT and plotly
 :::
 ::::
 
+
+
 ## The big idea
 
 :::: {.columns}
@@ -261,9 +263,12 @@ Some things will require specials, e.g. DT and plotly
 :::
 ::::
 
+```
 ## The Example
 
 <iframe src="https://mastering-shiny.org/basic-reactivity.html#the-motivation" width=90% height=90%></frame>
+```
+
 
 ## Details
 
@@ -300,4 +305,8 @@ The blog highlights the need for special programming tools if we decide that our
 
 1. Parameterized markdown and CRON jobs
    - What is a CRON job?
+
 2. CRON jobs and web servers?
+
+# The Path Forward {background-image="img/PathF.png" background-size="450px"}
+
