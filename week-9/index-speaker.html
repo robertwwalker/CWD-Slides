@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.2.335">
 
   <meta name="author" content="Robert W. Walker">
-  <title>Week 9: parameterized Markdown and Shiny</title>
+  <title>Week 9: Shiny, Part II</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -28,70 +28,6 @@
       margin: 0 0.8em 0.2em -1.6em;
       vertical-align: middle;
     }
-    pre > code.sourceCode { white-space: pre; position: relative; }
-    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-    pre > code.sourceCode > span:empty { height: 1.2em; }
-    .sourceCode { overflow: visible; }
-    code.sourceCode > span { color: inherit; text-decoration: inherit; }
-    div.sourceCode { margin: 1em 0; }
-    pre.sourceCode { margin: 0; }
-    @media screen {
-    div.sourceCode { overflow: auto; }
-    }
-    @media print {
-    pre > code.sourceCode { white-space: pre-wrap; }
-    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-    }
-    pre.numberSource code
-      { counter-reset: source-line 0; }
-    pre.numberSource code > span
-      { position: relative; left: -4em; counter-increment: source-line; }
-    pre.numberSource code > span > a:first-child::before
-      { content: counter(source-line);
-        position: relative; left: -1em; text-align: right; vertical-align: baseline;
-        border: none; display: inline-block;
-        -webkit-touch-callout: none; -webkit-user-select: none;
-        -khtml-user-select: none; -moz-user-select: none;
-        -ms-user-select: none; user-select: none;
-        padding: 0 4px; width: 4em;
-      }
-    pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-    div.sourceCode
-      { color: #f8f8f2;  }
-    @media screen {
-    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-    }
-    code span { color: #f8f8f2; } /* Normal */
-    code span.al { color: #f07178; background-color: #2a0f15; font-weight: bold; } /* Alert */
-    code span.an { color: #d4d0ab; } /* Annotation */
-    code span.at { color: #00e0e0; } /* Attribute */
-    code span.bn { color: #d4d0ab; } /* BaseN */
-    code span.bu { color: #abe338; } /* BuiltIn */
-    code span.cf { color: #ffa07a; font-weight: bold; } /* ControlFlow */
-    code span.ch { color: #abe338; } /* Char */
-    code span.cn { color: #ffd700; } /* Constant */
-    code span.co { color: #f8f8f2; font-style: italic; } /* Comment */
-    code span.cv { color: #ffd700; } /* CommentVar */
-    code span.do { color: #f8f8f2; } /* Documentation */
-    code span.dt { color: #ffa07a; } /* DataType */
-    code span.dv { color: #d4d0ab; } /* DecVal */
-    code span.er { color: #f07178; text-decoration: underline; } /* Error */
-    code span.ex { color: #00e0e0; font-weight: bold; } /* Extension */
-    code span.fl { color: #d4d0ab; } /* Float */
-    code span.fu { color: #ffa07a; } /* Function */
-    code span.im { color: #abe338; } /* Import */
-    code span.in { color: #d4d0ab; } /* Information */
-    code span.kw { color: #ffa07a; font-weight: bold; } /* Keyword */
-    code span.op { color: #ffa07a; } /* Operator */
-    code span.ot { color: #00e0e0; } /* Other */
-    code span.pp { color: #dcc6e0; } /* Preprocessor */
-    code span.re { color: #00e0e0; background-color: #f8f8f2; } /* RegionMarker */
-    code span.sc { color: #abe338; } /* SpecialChar */
-    code span.ss { color: #abe338; } /* SpecialString */
-    code span.st { color: #abe338; } /* String */
-    code span.va { color: #00e0e0; } /* Variable */
-    code span.vs { color: #abe338; } /* VerbatimString */
-    code span.wa { color: #dcc6e0; } /* Warning */
   </style>
   <link rel="stylesheet" href="index_files/libs/revealjs/dist/theme/quarto.css" id="theme">
   <link href="index_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
@@ -391,7 +327,7 @@
     <div class="slides">
 
 <section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">Week 9: parameterized Markdown and Shiny</h1>
+  <h1 class="title">Week 9: Shiny, Part II</h1>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -411,8 +347,8 @@ Robert W. Walker
 <h2>Overview</h2>
 <ol type="1">
 <li class="fragment">AMA</li>
-<li class="fragment">Parameterized markdown</li>
-<li class="fragment">Shiny</li>
+<li class="fragment">Looking Backward: Shiny Part I</li>
+<li class="fragment">Shiny, Part II</li>
 </ol>
 </section>
 <section id="the-assignment-multi-week" class="slide level2">
@@ -421,306 +357,197 @@ Robert W. Walker
 </section>
 <section id="ama" class="slide level2">
 <h2>AMA</h2>
-<p>If there are things you want to figure out with <code>quarto</code>, what are they?</p>
+<p>A quarto tip.</p>
+<p><img data-src="img/Screen%20Shot%202023-03-20%20at%201.14.15%20PM.png" alt="The margin column"> ## A Recap of a Shiny Conference</p>
 <ul>
-<li class="fragment">I have one example on functions from the blog.</li>
+<li class="fragment"><a href="https://rhinoverse.dev/#rhino">the Rhinoverse</a></li>
 </ul>
-</section>
-<section id="a-discord-post" class="slide level2">
-<h2>A Discord Post</h2>
-<p>On programming tidily.</p>
-</section>
-<section id="a-funny-thing-about-the-tidyverse" class="slide level2">
-<h2>A funny thing about the <code>tidyverse</code></h2>
-<p><strong>Quosures</strong>. <a href="https://rlang.r-lib.org/reference/topic-quosure.html">The writeup</a></p>
-<div class="cell">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>mySum <span class="ot">&lt;-</span> <span class="cf">function</span>(dat, vec) {</span>
-<span id="cb1-2"><a href="#cb1-2"></a>    vec <span class="ot">&lt;-</span> <span class="fu">enquo</span>(vec)</span>
-<span id="cb1-3"><a href="#cb1-3"></a>    result <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span></span>
-<span id="cb1-4"><a href="#cb1-4"></a>        <span class="fu">summarise</span>(<span class="at">Mean =</span> <span class="fu">mean</span>(<span class="sc">!!</span>vec, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">SD =</span> <span class="fu">sd</span>(<span class="sc">!!</span>vec, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb1-5"><a href="#cb1-5"></a>            <span class="at">SE =</span> <span class="fu">sd</span>(<span class="sc">!!</span>vec, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)<span class="sc">/</span><span class="fu">sqrt</span>(<span class="fu">length</span>(<span class="sc">!!</span>vec)), <span class="at">P25 =</span> <span class="fu">quantile</span>({</span>
-<span id="cb1-6"><a href="#cb1-6"></a>                {</span>
-<span id="cb1-7"><a href="#cb1-7"></a>                  vec</span>
-<span id="cb1-8"><a href="#cb1-8"></a>                }</span>
-<span id="cb1-9"><a href="#cb1-9"></a>            }, <span class="at">probs =</span> <span class="fl">0.25</span>), <span class="at">P75 =</span> <span class="fu">quantile</span>({</span>
-<span id="cb1-10"><a href="#cb1-10"></a>                {</span>
-<span id="cb1-11"><a href="#cb1-11"></a>                  vec</span>
-<span id="cb1-12"><a href="#cb1-12"></a>                }</span>
-<span id="cb1-13"><a href="#cb1-13"></a>            }, <span class="at">probs =</span> <span class="fl">0.75</span>))</span>
-<span id="cb1-14"><a href="#cb1-14"></a>    <span class="fu">return</span>(result)</span>
-<span id="cb1-15"><a href="#cb1-15"></a>}</span>
-<span id="cb1-16"><a href="#cb1-16"></a>mtcars <span class="sc">%&gt;%</span></span>
-<span id="cb1-17"><a href="#cb1-17"></a>    <span class="fu">mySum</span>(., disp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>  Mean  SD   SE P25 P75
-1  231 124 21.9 121 326</code></pre>
-</div>
-</div>
-</section></section>
-<section>
-<section id="shiny" class="title-slide slide level1 center">
-<h1>Shiny</h1>
-
-</section>
-<section id="a-mental-model" class="slide level2">
-<h2>A Mental Model</h2>
-<p>Ever heard the phrase <em>letting the data speak</em>?</p>
-<p><strong>A shiny gives the data a particular set of voices and words.</strong></p>
-<p>What do I mean by this?</p>
-<ul>
-<li class="fragment">Almost all shiny apps limit the set of things the end-user can do. I know of only one exception to this rule and I use it extensively – radiant.</li>
-</ul>
-</section>
-<section id="something-to-do." class="slide level2">
-<h2>Something to do….</h2>
-<p><strong>Watch this!</strong></p>
-<iframe width="560" height="315" src="https://www.youtube.com/embed/HpqLXB_TnpI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="">
-</iframe>
-</section>
-<section id="the-basics" class="slide level2">
-<h2>The Basics</h2>
-<div class="columns">
-<div class="column" style="width:50%;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="img/Screenshot%202023-03-13%20at%201.24.51%20PM.png"></p>
-<p></p><figcaption>What for?</figcaption><p></p>
-</figure>
-</div>
-</div><div class="column" style="width:50%;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="img/Screenshot%202023-03-13%20at%201.25.24%20PM.png"></p>
-<p></p><figcaption>What in particular?</figcaption><p></p>
-</figure>
-</div>
-</div>
-</div>
-</section>
-<section id="an-attack-plan" class="slide level2">
-<h2>An Attack Plan</h2>
-
-<img data-src="img/Screenshot%202023-03-13%20at%201.26.31%20PM.png" class="r-stretch quarto-figure-center"><p class="caption">Division of Book</p></section></section>
-<section>
-<section id="the-first-part" class="title-slide slide level1 center">
-<h1>The First Part</h1>
-<ol type="1">
-<li class="fragment">A first app</li>
-<li class="fragment">Basic UI</li>
-<li class="fragment">Basic Reactivity</li>
-<li class="fragment">Case Study: ER Injuries</li>
-</ol>
-</section>
-<section id="ui-and-server" class="slide level2">
-<h2>UI and Server</h2>
-<p>There are multiple ways to devise a shiny app but it ultimately comes down to a <strong>UI</strong> – user interface – and a set of <strong>server</strong> instructions driven by the <strong>UI</strong>.</p>
-<blockquote>
-<p>Shiny uses reactive programming to automatically update outputs when inputs change so we’ll finish off the chapter by learning the third important component of Shiny apps: reactive expressions</p>
-</blockquote>
-</section>
-<section id="stepping-back-what-could-be-done" class="slide level2">
-<h2>Stepping Back, What could be done?</h2>
-<iframe src="https://vnijs.shinyapps.io/radiant/" width="100%" height="90%">
-</iframe>
-</section>
-<section id="lets-do-this" class="slide level2">
-<h2>Let’s Do This…</h2>
-<p><a href="https://mastering-shiny.org/basic-app.html">A First Hit</a></p>
-</section>
-<section id="a-running-example" class="slide level2">
-<h2>A Running Example</h2>
-<pre><code>library(shiny)
-ui &lt;- fluidPage(
-  "Hello, world!"
-)
-server &lt;- function(input, output, session) {
-}
-shinyApp(ui, server)</code></pre>
-</section>
-<section id="adding-to-ui" class="slide level2">
-<h2>Adding to UI</h2>
-<pre><code>ui &lt;- fluidPage(
-  selectInput("dataset", label = "Dataset", choices = ls("package:datasets")),
-  verbatimTextOutput("summary"),
-  tableOutput("table")
-)
-server &lt;- function(input, output, session) {
-}
-shinyApp(ui, server)</code></pre>
-</section>
-<section id="adding-to-server" class="slide level2">
-<h2>Adding to Server</h2>
-<pre><code>ui &lt;- fluidPage(
-  selectInput("dataset", label = "Dataset", choices = ls("package:datasets")),
-  verbatimTextOutput("summary"),
-  tableOutput("table")
-)
-server &lt;- function(input, output, session) {
-  output$summary &lt;- renderPrint({
-# Note the duplication
-    dataset &lt;- get(input$dataset, "package:datasets")
-    summary(dataset)
-  })
-  
-  output$table &lt;- renderTable({
-# Note the duplication
-    dataset &lt;- get(input$dataset, "package:datasets")
-    dataset
-  })
-}
-shinyApp(ui, server)</code></pre>
-</section>
-<section id="adding-to-server-2" class="slide level2">
-<h2>Adding to Server 2</h2>
-<pre><code>ui &lt;- fluidPage(
-  selectInput("dataset", label = "Dataset", choices = ls("package:datasets")),
-  verbatimTextOutput("summary"),
-  tableOutput("table")
-)
-server &lt;- function(input, output, session) {
-  # Create a reactive expression
-  dataset &lt;- reactive({
-    get(input$dataset, "package:datasets")
-  })
-
-  output$summary &lt;- renderPrint({
-    # Use a reactive expression by calling it like a function
-    summary(dataset())
-  })
-  
-  output$table &lt;- renderTable({
-    dataset()
-  })
-}
-shinyApp(ui, server)</code></pre>
-</section>
-<section id="making-this-more-rich" class="slide level2">
-<h2>Making this more rich…</h2>
-<div class="columns">
-<div class="column" style="width:50%;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="img/Screenshot%202023-03-13%20at%201.52.45%20PM.png"></p>
-<p></p><figcaption>Inputs</figcaption><p></p>
-</figure>
-</div>
-</div><div class="column" style="width:50%;">
-<p>Some things will require specials, e.g.&nbsp;DT and plotly</p>
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="img/Screenshot%202023-03-13%20at%201.53.31%20PM.png"></p>
-<p></p><figcaption>Outputs</figcaption><p></p>
-</figure>
-</div>
-</div>
-</div>
-</section>
-<section id="thats-just-the-beginning" class="slide level2">
-<h2>That’s just the beginning</h2>
-<p><a href="https://github.com/nanxstats/awesome-shiny-extensions">There are an amazing array of extensions.</a></p>
-</section>
-<section id="reactive-programming" class="slide level2">
-<h2>Reactive Programming</h2>
-<blockquote>
-<p>Do this if that.</p>
-</blockquote>
-<div class="columns">
-<div class="column" style="width:50%;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="img/Screenshot%202023-03-13%20at%202.36.47%20PM.png"></p>
-<p></p><figcaption>Insight 1</figcaption><p></p>
-</figure>
-</div>
-</div><div class="column" style="width:50%;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="img/Screenshot%202023-03-13%20at%202.37.50%20PM.png"></p>
-<p></p><figcaption>Insight 2</figcaption><p></p>
-</figure>
-</div>
-</div>
-</div>
-</section>
-<section id="the-big-idea" class="slide level2">
-<h2>The big idea</h2>
-<div class="columns">
-<div class="column" style="width:50%;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="img/Screenshot%202023-03-13%20at%202.39.41%20PM.png"></p>
-<p></p><figcaption>Reactive</figcaption><p></p>
-</figure>
-</div>
-</div><div class="column" style="width:50%;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="img/Screenshot%202023-03-13%20at%202.40.09%20PM.png"></p>
-<p></p><figcaption>A Graph</figcaption><p></p>
-</figure>
-</div>
-</div>
-</div>
-<pre><code>## The Example
-
-&lt;iframe src="https://mastering-shiny.org/basic-reactivity.html#the-motivation" width=90% height=90%&gt;&lt;/frame&gt;</code></pre>
-</section>
-<section id="details" class="slide level2">
-<h2>Details</h2>
-<div class="columns">
-<div class="column" style="width:50%;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="img/Screenshot%202023-03-13%20at%202.43.19%20PM.png"></p>
-<p></p><figcaption>Details</figcaption><p></p>
-</figure>
-</div>
-</div><div class="column" style="width:50%;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="img/Screenshot%202023-03-13%20at%202.43.33%20PM.png"></p>
-<p></p><figcaption>Input/Output</figcaption><p></p>
-</figure>
-</div>
-</div>
-</div>
-</section>
-<section id="an-important-section" class="slide level2">
-<h2>An Important Section</h2>
-
-<img data-src="img/Screenshot%202023-03-13%20at%202.47.21%20PM.png" class="r-stretch quarto-figure-center"><p class="caption">Observers</p></section>
-<section id="the-low-down" class="slide level2">
-<h2>The low-down</h2>
-
-<img data-src="img/Screenshot%202023-03-13%20at%202.48.17%20PM.png" class="r-stretch quarto-figure-center"><p class="caption">Observers Reconstruct</p></section>
-<section id="a-case-study" class="slide level2">
-<h2>A Case Study</h2>
-<p><a href="https://mastering-shiny.org/basic-case-study.html">Is here</a></p>
-</section>
-<section id="other-use-cases" class="slide level2">
-<h2>Other Use Cases</h2>
-<p>The blog highlights the need for special programming tools if we decide that our use cases is a <code>model choice</code> approach.</p>
+<p>From tools to frameworks for tools.</p>
 </section>
 <section id="some-alternatives-to-consider" class="slide level2">
 <h2>Some Alternatives to Consider</h2>
 <ol type="1">
-<li class="fragment">Parameterized markdown and CRON jobs
+<li class="fragment"><p>Parameterized markdown and CRON jobs</p>
 <ul>
 <li class="fragment">What is a CRON job?</li>
 </ul></li>
-<li class="fragment">CRON jobs and web servers?</li>
+<li class="fragment"><p>CRON jobs and web servers?</p></li>
+<li class="fragment"><p>Use APIs.</p></li>
 </ol>
-</section></section>
+<p>Here’s a little example.</p>
+
+<img data-src="img/Screen%20Shot%202023-03-20%20at%201.18.13%20PM.png" class="r-stretch quarto-figure-center"><p class="caption">OCPU</p></section></section>
+<section>
 <section id="the-path-forward" class="title-slide slide level1 center" data-background-image="img/PathF.png" data-background-size="450px">
 <h1>The Path Forward</h1>
 
-<img src="AGSMlogo.jpeg" class="slide-logo r-stretch"><div class="footer footer-default">
-<p>Communicating With Data: Week 7 (13 Mar 2023)</p>
+</section>
+<section id="workflow" class="slide level2">
+<h2>Workflow</h2>
+<ol type="1">
+<li class="fragment">Development cycles</li>
+<li class="fragment">Debugging</li>
+<li class="fragment">Getting help [<code>reprex</code>]</li>
+</ol>
+</section>
+<section id="development-workflow" class="slide level2">
+<h2>Development workflow</h2>
+<ol type="1">
+<li class="fragment">Any app is six lines of code.</li>
+</ol>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="img/Screen%20Shot%202023-03-20%20at%201.22.54%20PM.png"></p>
+<p></p><figcaption>Six lines</figcaption><p></p>
+</figure>
+</div>
+<ol start="2" type="1">
+<li class="fragment">Playing/experimenting is the key</li>
+</ol>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="img/Screen%20Shot%202023-03-20%20at%201.23.58%20PM.png"></p>
+<p></p><figcaption>Experimentation</figcaption><p></p>
+</figure>
 </div>
 </section>
+<section id="the-ide-and-shiny" class="slide level2">
+<h2>The IDE and Shiny</h2>
+
+<img data-src="img/Screen%20Shot%202023-03-20%20at%201.24.58%20PM.png" class="r-stretch quarto-figure-center"><p class="caption">Options</p></section>
+<section id="tracebacks" class="slide level2">
+<h2>Tracebacks</h2>
+<p>Normal tracebacks vs [mandatory] shiny tracebacks</p>
+</section>
+<section id="interactive-debugging" class="slide level2">
+<h2>Interactive Debugging</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="img/Screen%20Shot%202023-03-20%20at%201.26.48%20PM.png"></p>
+<p></p><figcaption>Interactive Debugging</figcaption><p></p>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="img/Screen%20Shot%202023-03-20%20at%201.27.55%20PM.png"></p>
+<p></p><figcaption>What is debugging?</figcaption><p></p>
+</figure>
+</div>
+</section>
+<section id="reprex" class="slide level2">
+<h2>Reprex</h2>
+</section></section>
+<section>
+<section id="layout-and-look" class="title-slide slide level1 center">
+<h1>Layout and Look</h1>
+
+<img data-src="img/Screen%20Shot%202023-03-20%20at%201.31.29%20PM.png" class="r-stretch quarto-figure-center"><p class="caption">Hierarchy</p></section>
+<section id="single-pages" class="slide level2">
+<h2>Single Pages</h2>
+<p>Pages [12 column width] - <code>fluidPage()</code>: a generic page - <code>fixedPage()</code>: a fixed width page - <code>fillPage()</code>: a full screen page - <code>sidebarLayout()</code> - <code>fluidRow()</code> and <code>column()</code></p>
+</section>
+<section id="multiple-pages" class="slide level2">
+<h2>Multiple Pages</h2>
+<ul>
+<li class="fragment">tabsets [<code>tabsetPanel()</code> and <code>tabPanel()</code>]</li>
+<li class="fragment">navlists and navbars</li>
+</ul>
+</section>
+<section id="theming" class="slide level2">
+<h2>Theming</h2>
+<p>the theme argument and bootstrap/bootswatch</p>
+<p>NB: there’s a version argument</p>
+<p><strong>THEMATIC</strong></p>
+</section>
+<section id="interactivity" class="slide level2">
+<h2>Interactivity</h2>
+
+<img data-src="img/Screen%20Shot%202023-03-20%20at%201.51.39%20PM.png" class="r-stretch quarto-figure-center"><p class="caption">Interactivity with Mouse</p></section>
+<section id="brushing" class="slide level2">
+<h2>Brushing</h2>
+
+<img data-src="img/Screen%20Shot%202023-03-20%20at%201.53.25%20PM.png" class="r-stretch quarto-figure-center"><p class="caption">Brushing</p></section>
+<section id="interactive-output" class="slide level2">
+<h2>Interactive Output</h2>
+
+<img data-src="img/Screen%20Shot%202023-03-20%20at%201.54.37%20PM.png" class="r-stretch quarto-figure-center"><p class="caption">Modifying the plot</p></section>
+<section id="limitations" class="slide level2">
+<h2>Limitations</h2>
+
+<img data-src="img/Screen%20Shot%202023-03-20%20at%201.55.40%20PM.png" class="r-stretch quarto-figure-center"><p class="caption">Limits</p></section>
+<section id="dynamic-plotting" class="slide level2">
+<h2>Dynamic plotting</h2>
+
+<img data-src="img/Screen%20Shot%202023-03-20%20at%201.57.21%20PM.png" class="r-stretch quarto-figure-center"><p class="caption">Server side</p></section>
+<section id="images" class="slide level2">
+<h2>Images</h2>
+
+<img data-src="img/Screen%20Shot%202023-03-20%20at%201.59.13%20PM.png" class="r-stretch quarto-figure-center"><p class="caption">Images</p></section></section>
+<section>
+<section id="feedback" class="title-slide slide level1 center">
+<h1>Feedback</h1>
+<p><code>shinyFeedback</code></p>
+</section>
+<section id="details" class="slide level2">
+<h2>Details</h2>
+<ol type="1">
+<li class="fragment">Validating</li>
+<li class="fragment">Notifying</li>
+<li class="fragment">Progress tracking</li>
+<li class="fragment">Confirmation and undo</li>
+</ol>
+</section>
+<section id="file-transfers" class="slide level2">
+<h2>File Transfers</h2>
+<p>9.1 is on uploads. This can get tricky with Docker. 9.2 on downloads.</p>
+</section>
+<section id="dynamic-ui" class="slide level2">
+<h2>Dynamic UI</h2>
+<p>Three key techniques: 1. <code>update</code> 2. tabsetPanel for conditionals 3. uiOutput and renderUI</p>
+</section>
+<section id="update" class="slide level2">
+<h2>update</h2>
+
+<img data-src="img/Screen%20Shot%202023-03-20%20at%202.13.13%20PM.png" class="r-stretch quarto-figure-center"><p class="caption">Use cases</p></section>
+<section id="conditionals" class="slide level2">
+<h2>conditionals</h2>
+
+<img data-src="img/Screen%20Shot%202023-03-20%20at%202.11.19%20PM.png" class="r-stretch quarto-figure-center"><p class="caption">dynamic visibility</p></section>
+<section id="the-wizard-interface-and-surveys" class="slide level2">
+<h2>the wizard interface and surveys</h2>
+
+<img data-src="img/Screen%20Shot%202023-03-20%20at%202.14.26%20PM.png" class="r-stretch quarto-figure-center"><p class="caption">survey layout</p></section>
+<section id="code-creation-of-ui" class="slide level2">
+<h2>Code creation of UI</h2>
+<p>Functional programming.</p>
+</section>
+<section id="map-is-back" class="slide level2">
+<h2><code>map</code> is back</h2>
+
+<img data-src="img/Screen%20Shot%202023-03-20%20at%202.17.43%20PM.png" class="r-stretch quarto-figure-center"><p class="caption">Functionals in action</p></section>
+<section id="bookmarks" class="slide level2">
+<h2>Bookmarks</h2>
+
+<img data-src="img/Screen%20Shot%202023-03-20%20at%202.19.36%20PM.png" class="r-stretch quarto-figure-center"><p class="caption">Bookmark</p><p><a href="https://shiny.rstudio.com/articles/advanced-bookmarking.html">Advanced Bookmarks</a></p>
+</section>
+<section id="back-to-tidy-evaluation" class="slide level2">
+<h2>back to tidy evaluation</h2>
+<p>Environments and data.</p>
+
+<img data-src="img/Screen%20Shot%202023-03-20%20at%202.21.12%20PM.png" class="r-stretch quarto-figure-center"><p class="caption">tidy evaluation</p></section></section>
+<section>
+<section id="the-path-forward-1" class="title-slide slide level1 center">
+<h1>The Path Forward</h1>
+
+<img data-src="img/Screen%20Shot%202023-03-20%20at%202.22.59%20PM.png" class="r-stretch quarto-figure-center"><p class="caption">next time</p></section>
+<section id="fun-with-docker" class="slide level2">
+<h2>Fun with docker</h2>
+<p>We will walk through at least one example as time permits.</p>
+
+<img src="AGSMlogo.jpeg" class="slide-logo r-stretch"><div class="footer footer-default">
+<p>Communicating With Data: Week 9 (20 Mar 2023)</p>
+</div>
+</section></section>
     </div>
   </div>
 
