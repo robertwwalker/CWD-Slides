@@ -1,0 +1,220 @@
+---
+title: "Week 10: Shiny, Part II"
+author: "Robert W. Walker"
+format: 
+   revealjs:
+     multiplex: true
+     preview-links: true
+     theme: [custom.scss]
+     scrollable: true
+     logo: AGSMlogo.jpeg
+     footer: "Communicating With Data: Week 10 (20 Mar 2023)"
+     chalkboard: true
+     html-math-method: katex
+     incremental: true
+     slide-number: c/t
+     transition: convex
+     code-fold: true
+     code-tools: true
+---
+
+# Overview
+
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+```{r setup, include=FALSE}
+library(fontawesome)
+knitr::opts_chunk$set(warning=FALSE, message=FALSE, echo=TRUE, tidy=TRUE, comment=NA, prompt=FALSE, fig.height=6, fig.width=6.5, fig.retina = 3, dev = 'svg', eval=TRUE)
+library(tidyverse)
+library(DT)
+theme_set(hrbrthemes::theme_ipsum_rc())
+options(
+  digits = 3,
+  width = 75,
+  ggplot2.continuous.colour = "viridis",
+  ggplot2.continuous.fill = "viridis",
+  ggplot2.discrete.colour = c("#D55E00", "#0072B2", "#009E73", "#CC79A7", "#E69F00", "#56B4E9", "#F0E442"),
+  ggplot2.discrete.fill = c("#D55E00", "#0072B2", "#009E73", "#CC79A7", "#E69F00", "#56B4E9", "#F0E442")
+)
+```
+
+## Overview
+
+1. AMA
+2. Looking Backward: Shiny Part I
+3. Shiny, Part II
+
+## The Assignment [Multi-week] 
+
+**A shiny**
+
+## AMA
+
+A quarto tip.
+
+![The margin column](img/Screen Shot 2023-03-20 at 1.14.15 PM.png)
+## A Recap of a Shiny Conference
+
+- [the Rhinoverse](https://rhinoverse.dev/#rhino)
+
+From tools to frameworks for tools.
+
+## Some Alternatives to Consider
+
+1. Parameterized markdown and CRON jobs
+   - What is a CRON job?
+
+2. CRON jobs and web servers?
+
+3. Use APIs.
+
+Here's a little example.
+
+![OCPU](img/Screen Shot 2023-03-20 at 1.18.13 PM.png)
+
+# The Path Forward {background-image="img/PathF.png" background-size="450px"}
+
+## Workflow
+
+1. Development cycles
+2. Debugging
+3. Getting help [`reprex`]
+
+## Development workflow
+
+1. Any app is six lines of code.
+
+![Six lines](img/Screen Shot 2023-03-20 at 1.22.54 PM.png)
+
+2. Playing/experimenting is the key
+
+![Experimentation](img/Screen Shot 2023-03-20 at 1.23.58 PM.png)
+
+## The IDE and Shiny
+
+![Options](img/Screen Shot 2023-03-20 at 1.24.58 PM.png)
+
+## Tracebacks
+
+Normal tracebacks vs [mandatory] shiny tracebacks
+
+## Interactive Debugging
+
+![Interactive Debugging](img/Screen Shot 2023-03-20 at 1.26.48 PM.png)
+
+![What is debugging?](img/Screen Shot 2023-03-20 at 1.27.55 PM.png)
+
+## Reprex
+
+# Layout and Look
+
+![Hierarchy](img/Screen Shot 2023-03-20 at 1.31.29 PM.png)
+
+## Single Pages
+
+Pages [12 column width]
+- `fluidPage()`: a generic page
+- `fixedPage()`: a fixed width page
+- `fillPage()`: a full screen page
+- `sidebarLayout()`
+   - `fluidRow()` and `column()`
+
+## Multiple Pages
+
+- tabsets [`tabsetPanel()` and `tabPanel()`]
+- navlists and navbars
+
+## Theming
+
+the theme argument and bootstrap/bootswatch
+
+NB: there's a version argument
+
+**THEMATIC**
+
+## Interactivity
+
+![Interactivity with Mouse](img/Screen Shot 2023-03-20 at 1.51.39 PM.png)
+
+## Brushing
+
+![Brushing](img/Screen Shot 2023-03-20 at 1.53.25 PM.png)
+
+## Interactive Output
+
+![Modifying the plot](img/Screen Shot 2023-03-20 at 1.54.37 PM.png)
+
+## Limitations
+
+![Limits](img/Screen Shot 2023-03-20 at 1.55.40 PM.png)
+
+## Dynamic plotting
+
+![Server side](img/Screen Shot 2023-03-20 at 1.57.21 PM.png)
+
+## Images
+
+![Images](img/Screen Shot 2023-03-20 at 1.59.13 PM.png)
+
+# Feedback
+
+`shinyFeedback`
+
+## Details
+
+1. Validating
+2. Notifying
+3. Progress tracking
+4. Confirmation and undo
+
+## File Transfers
+
+9.1 is on uploads.  This can get tricky with Docker.
+9.2 on downloads.
+
+## Dynamic UI
+
+Three key techniques:
+1. `update`
+2. tabsetPanel for conditionals
+3. uiOutput and renderUI
+
+## update
+
+![Use cases](img/Screen Shot 2023-03-20 at 2.13.13 PM.png)
+
+## conditionals
+
+![dynamic visibility](img/Screen Shot 2023-03-20 at 2.11.19 PM.png)
+
+## the wizard interface and surveys
+
+![survey layout](img/Screen Shot 2023-03-20 at 2.14.26 PM.png)
+
+## Code creation of UI
+
+Functional programming.
+
+## `map` is back
+
+![Functionals in action](img/Screen Shot 2023-03-20 at 2.17.43 PM.png)
+
+## Bookmarks
+
+![Bookmark](img/Screen Shot 2023-03-20 at 2.19.36 PM.png)
+
+[Advanced Bookmarks](https://shiny.rstudio.com/articles/advanced-bookmarking.html)
+
+## back to tidy evaluation
+
+Environments and data.
+
+![tidy evaluation](img/Screen Shot 2023-03-20 at 2.21.12 PM.png)
+
+# The Path Forward
+
+![next time](img/Screen Shot 2023-03-20 at 2.22.59 PM.png)
+
+## Fun with docker
+
+We will walk through at least one example as time permits.
