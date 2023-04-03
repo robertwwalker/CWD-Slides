@@ -49,6 +49,17 @@ options(
 
 **A shiny**
 
+![Syllabus Module for Week 11](img/Screen Shot 2023-03-13 at 10.25.31 AM.png)
+
+
+## A Handy Styling Tool
+
+[Link to discord](https://discord.com/channels/1060749753144573963/1090002841676029992/1090003017887121538)
+
+## Another Handy Docker Tool
+
+[Link to discord](https://discord.com/channels/1060749753144573963/1088250384205754379/1088250485112311868)
+
 ## AMA
 
 ## Tidy evaluation
@@ -70,6 +81,8 @@ We will walk through at least one example as time permits.
 - `docker build`
 - `docker push`
 - The Cloud Run Console
+
+This can be tricky with M1 macs as some images do not play nicely.  **NB: I am just beginning to explore this because it did not occur to me that it would be an issue from my Intel workstation.**
 
 # Shiny Part III
 
