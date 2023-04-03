@@ -1,0 +1,230 @@
+---
+title: "Week 11: Shiny, Part III"
+author: "Robert W. Walker"
+format: 
+   revealjs:
+     multiplex: true
+     preview-links: true
+     theme: [custom.scss]
+     scrollable: true
+     logo: AGSMlogo.jpeg
+     footer: "Communicating With Data: Week 11 (3 Apr 2023)"
+     chalkboard: true
+     html-math-method: katex
+     incremental: true
+     slide-number: c/t
+     transition: convex
+     code-fold: true
+     code-tools: true
+---
+
+# Overview
+
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+```{r setup, include=FALSE}
+library(fontawesome)
+knitr::opts_chunk$set(warning=FALSE, message=FALSE, echo=TRUE, tidy=TRUE, comment=NA, prompt=FALSE, fig.height=6, fig.width=6.5, fig.retina = 3, dev = 'svg', eval=TRUE)
+library(tidyverse)
+library(DT)
+theme_set(hrbrthemes::theme_ipsum_rc())
+options(
+  digits = 3,
+  width = 75,
+  ggplot2.continuous.colour = "viridis",
+  ggplot2.continuous.fill = "viridis",
+  ggplot2.discrete.colour = c("#D55E00", "#0072B2", "#009E73", "#CC79A7", "#E69F00", "#56B4E9", "#F0E442"),
+  ggplot2.discrete.fill = c("#D55E00", "#0072B2", "#009E73", "#CC79A7", "#E69F00", "#56B4E9", "#F0E442")
+)
+```
+
+## Overview
+
+1. AMA
+2. Tidy evaluation again
+3. Shiny, Part III
+4. Best Practices
+
+## The Assignment [Multi-week] 
+
+**A shiny**
+
+## AMA
+
+## Tidy evaluation
+
+Environments and data.
+
+![tidy evaluation](img/Screen Shot 2023-03-20 at 2.21.12 PM.png)
+
+# The Path Forward
+
+![next time](img/Screen Shot 2023-03-20 at 2.22.59 PM.png)
+
+## Fun with docker
+
+We will walk through at least one example as time permits.
+
+## Docker in brief
+
+- `docker build`
+- `docker push`
+- The Cloud Run Console
+
+# Shiny Part III
+
+## Working through these chapters
+
+Start with:
+
+```
+library(shiny)
+library(dplyr)
+ui <- ...
+server <- ...
+shinyApp(ui, server)
+```
+
+and the steps will fill in a `ui` and `server`
+
+## Chapter 12
+
+- `tidy` evaluation
+
+![Screen shot](img/Screenshot 2023-04-03 at 10.42.45 AM.png)
+
+## Passing variable names
+
+```
+library(shiny)
+library(dplyr)
+ui <- fluidPage(
+  selectInput("var", "Sort by", choices = names(mtcars)),
+  checkboxInput("desc", "Descending order?"),
+  tableOutput("data")
+)
+server <- function(input, output, session) {
+  sorted <- reactive({
+    if (input$desc) {
+      arrange(mtcars, desc(.data[[input$var]]))
+    } else {
+      arrange(mtcars, .data[[input$var]])
+    }
+  })
+  output$data <- renderTable(sorted())
+}
+shinyApp(ui, server)
+```
+## The importance of `req`.  **What does it do?**
+
+![Shot of help](img/Screenshot 2023-04-03 at 10.32.53 AM.png)
+
+
+## Chapter 13
+
+Why reactivity?
+
+![Shot](img/Screenshot 2023-04-03 at 10.48.21 AM.png)
+
+## Playing with Reactive
+
+![Simple Example](img/Screenshot 2023-04-03 at 10.54.50 AM.png)
+
+## Excel is Reactive, That's Why It is Popular
+
+It started with VisiCalc...
+
+![The History](img/Screenshot 2023-04-03 at 10.55.50 AM.png)
+
+## Chapter 14
+
+The reactive graph is worth playing with.  Due to modern defaults in RStudio, the workflow is a bit tricky.  We will have to run the app in the console.
+
+![Settings](img/Screenshot 2023-04-03 at 11.11.10 AM.png)
+
+## shinylog
+
+Run it and close it to get this.
+
+![reactlog](img/Screenshot 2023-04-03 at 11.09.45 AM.png)
+
+## Chapter 15
+
+Reactives, single and plural
+
+![Two types](img/Screenshot 2023-04-03 at 11.14.36 AM.png)
+
+## They Behave a bit Differently
+
+![Behavior is a bit different](img/Screenshot 2023-04-03 at 11.15.54 AM.png)
+
+## Observing
+
+Pay very close attention to 15.3 on `observe` versus `observeEvent`.  The example in 16.3.3...
+
+```
+library(shiny)
+reactiveConsole(TRUE)
+x <- reactiveVal(1)
+y <- observe({
+  x()
+  observe(print(x()))
+})
+x(2)
+x(3)
+x(2)
+```
+
+##  On Isolate
+
+![Details](img/Screenshot 2023-04-03 at 11.25.20 AM.png)
+
+Isolate is not all that common because the behavior is embedded in two common tools:
+
+![observeEvent and eventReactive](img/Screenshot 2023-04-03 at 11.26.39 AM.png)
+
+## 15.5 on timing 
+
+![part 1 - invalidateLater](img/Screenshot 2023-04-03 at 11.29.50 AM.png)
+
+## Polling
+
+![part 2 - Details](img/Screenshot 2023-04-03 at 11.30.36 AM.png)
+
+## `on.exit()`
+
+15.5.2 and the importance of timing.  Using `on.exit`   
+
+## Chapter 16: Escaping the Graph
+
+![Video](img/Screen Recording 2023-04-03 at 11.39.38 AM.mov)
+
+## The Case Studies
+
+![Part 1](img/Screen Recording 2023-04-03 at 11.43.00 AM.mov)
+
+![Part 2](img/Screen Recording 2023-04-03 at 11.44.18 AM.mov)
+
+Two that are related.
+
+![Part 3](img/Screen Recording 2023-04-03 at 11.45.32 AM.mov)
+
+![Part 4](img/Screen Recording 2023-04-03 at 11.46.44 AM.mov)
+
+The timer
+
+![Timer](img/Screen Recording 2023-04-03 at 11.49.42 AM.mov)
+
+## Warnings:  
+
+It is quite easy to get carried away and muddle the flow.
+
+![Anti-patterns](img/Screenshot 2023-04-03 at 11.52.09 AM.png)
+
+# The Path Forward
+
+![Shot of Final Section](img/Screenshot 2023-04-03 at 1.28.10 PM.png)
+
+## The Overview
+
+![Best Practices](img/Screenshot 2023-04-03 at 1.29.48 PM.png)
