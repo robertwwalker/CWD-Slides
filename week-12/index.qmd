@@ -1,0 +1,223 @@
+---
+title: "Week 12: Shiny, Part IV"
+author: "Robert W. Walker"
+format: 
+   revealjs:
+     multiplex: true
+     preview-links: true
+     theme: [custom.scss]
+     scrollable: true
+     logo: AGSMlogo.jpeg
+     footer: "Communicating With Data: Week 12 (10 Apr 2023)"
+     chalkboard: true
+     html-math-method: katex
+     incremental: true
+     slide-number: c/t
+     transition: convex
+     code-fold: true
+     code-tools: true
+---
+
+# Overview
+
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+```{r setup, include=FALSE}
+library(fontawesome)
+knitr::opts_chunk$set(warning=FALSE, message=FALSE, echo=TRUE, tidy=TRUE, comment=NA, prompt=FALSE, fig.height=6, fig.width=6.5, fig.retina = 3, dev = 'svg', eval=TRUE)
+library(tidyverse)
+library(DT)
+theme_set(hrbrthemes::theme_ipsum_rc())
+options(
+  digits = 3,
+  width = 75,
+  ggplot2.continuous.colour = "viridis",
+  ggplot2.continuous.fill = "viridis",
+  ggplot2.discrete.colour = c("#D55E00", "#0072B2", "#009E73", "#CC79A7", "#E69F00", "#56B4E9", "#F0E442"),
+  ggplot2.discrete.fill = c("#D55E00", "#0072B2", "#009E73", "#CC79A7", "#E69F00", "#56B4E9", "#F0E442")
+)
+```
+
+## Overview
+
+1. AMA
+2. Shiny, Part IV: Best Practices
+3. For Next Time: A Bit on Golem
+
+## The Assignment [Multi-week] 
+
+**A shiny**
+
+![Syllabus Module for Week 11](img/Screen Shot 2023-03-13 at 10.25.31 AM.png)
+
+
+## Chapter 16: Escaping the Graph
+
+![Video](img/Screen Recording 2023-04-03 at 11.39.38 AM.mov)
+
+## The Case Studies
+
+![Part 1](img/Screen Recording 2023-04-03 at 11.43.00 AM.mov)
+
+![Part 2](img/Screen Recording 2023-04-03 at 11.44.18 AM.mov)
+
+Two that are related.
+
+![Part 3](img/Screen Recording 2023-04-03 at 11.45.32 AM.mov)
+
+![Part 4](img/Screen Recording 2023-04-03 at 11.46.44 AM.mov)
+
+The timer
+
+![Timer](img/Screen Recording 2023-04-03 at 11.49.42 AM.mov)
+
+## Warnings:  
+
+It is quite easy to get carried away and muddle the flow.
+
+![Anti-patterns](img/Screenshot 2023-04-03 at 11.52.09 AM.png)
+
+# The Path Forward
+
+![Shot of Final Section](img/Screenshot 2023-04-03 at 1.28.10 PM.png)
+
+## The Overview
+
+![Best Practices](img/Screenshot 2023-04-03 at 1.29.48 PM.png)
+
+## Two Word Summary: Software Engineering
+
+Code Organization:
+- Clear and concise names
+- Comments for complex code
+- Can big functions be made smaller
+- Copy/paste and functions
+- Tangles versus isolations
+
+Chapters 18 [Functions] and 19 [Modules] seek to achieve some of these ends.
+
+## Testing is Key
+
+- `renv` or `packrat` for package dependencies
+- `config` package for non-package dependencies
+
+![Testing ideas](img/Screenshot 2023-04-10 at 11.36.37 AM.png)
+
+## Source Code and CI/CD
+
+Github is most common for source storage though it is by no means the only such tool.  Tools for integrating testing are the key to the CI/CD part.
+
+**Code reviews** are common practice in professional development shops.  Different approaches with different people often improve our code.  Two aspects.
+
+:::: {.columns}
+::: {.column width="50%"}
+![Benefits](img/Screenshot 2023-04-10 at 11.48.55 AM.png)
+:::
+::: {.column width="50%"}
+![Questions to Answer](img/Screenshot 2023-04-10 at 11.49.07 AM.png)
+:::
+::::
+
+## Functions
+
+Two Basic Types:
+
+![Functions for UI and Server](img/Screenshot 2023-04-10 at 12.13.25 PM.png)
+
+Why functions?
+
+> The key benefits of a function in the UI tend to be around reducing duplication. The key benefits of functions in a server tend to be around isolation and testing.
+
+## Shout out to `golem`
+
+R packages have a standard form of organization with code in `R/`.
+
+## UI Functions
+
+An example:
+- Copy/pasting sliders
+- A function for creating sliders
+- Functionally programming the sliders
+- The UI is data; functions given data
+
+## Server Functions
+
+1. It is much easier to debug and test your code if you can partition it so that reactivity lives inside of server(), and complex computation lives in your functions.
+
+2. When looking at a reactive expression or output, there’s no way to easily tell exactly what values it depends on, except by carefully reading the code block. A function definition, however, tells you exactly what the inputs are.
+
+*Let's walk through the example.*
+
+[Link](https://mastering-shiny.org/scaling-functions.html#function-upload)
+
+## Shiny Modules
+
+Modules are functions but, rather than being defined for a UI or server, they typically integrate both.  They are essentially a namespace for their environment.  They are basically mini-apps that define a module UI and a module Server.
+
+[The most basic module building](https://mastering-shiny.org/scaling-modules.html#module-basics)
+
+## Interacting with namespacing
+
+Modules are black-boxes that match together the UI and server.  This means two important things.
+
+1. Anything from outside the module has to be passed -- think sandboxes.
+
+2. ![Structure](img/Screenshot 2023-04-10 at 12.33.30 PM.png)
+
+## Two Case Studies of Input/Output
+
+[The Case Studies](https://mastering-shiny.org/scaling-modules.html#inputs-and-outputs)
+
+## 19.4 Provides Many Cases
+
+An important part of the mental model.
+
+![Do not forget...](img/Screenshot 2023-04-10 at 12.39.51 PM.png)
+
+## Chapter 20: Apps as Packages
+
+First, this is the same advice as Emily Riederer's advice on markdown-driven development.
+
+Second, this requires knowledge of exactly how R packages are built.  On R packages, there's a [great resource](https://r-pkgs.org/) though more on this next time with `golem` [or the rhinoverse].
+
+## Testing
+
+Four key levels:
+
+![Testing types](img/Screenshot 2023-04-10 at 12.44.33 PM.png)
+
+## `testthat`
+
+![The structure of tests](img/Screenshot 2023-04-10 at 12.45.59 PM.png)
+
+## When to test?
+
+![Three models](img/Screenshot 2023-04-10 at 12.47.50 PM.png)
+
+## Security
+
+Two main issues:
+
+1. Your data: you want to make sure an attacker can’t access any sensitive data.
+
+2. Your computing resources: you want to make sure an attacker can’t mine bitcoin or use your server as part of a spam farm.
+
+[An excellent talk:](https://www.youtube.com/watch?v=5odJxZj9LE4)
+
+## Performance
+
+[This intro is perfect.](https://mastering-shiny.org/performance.html)
+
+1. Benchmark
+2. Profile
+3. Optimise
+
+## Improvement Suggestions
+
+There are two parts to improvement.  The first is shared with essentially any R code using the three principles on the last slide: benchmark, profile, and optimise.  Because shiny's are whole systems, there is also...
+
+1. Caching
+2. Scheduling
+3. Managing Expectations
+
+# You have now mastered shiny....
